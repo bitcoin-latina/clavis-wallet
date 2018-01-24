@@ -16,22 +16,17 @@ import java.io.File;
 public class Web3 {
     Web3j web3j;
     public Web3j get_web3() {
-        System.out.println("Looking for IPC...");
         String ipc_path = Global.getPath()+File.separator+"BCL_Node"+File.separator+"geth.ipc";
         //Windows
         if(Global.getOS().contains("win")){
-            System.out.println("Getting IPC...");
             windowsIPC();
         }
         else {
             while (Toolkit.Is_Empty_File(File.separator + "BCL_Node" + File.separator + "geth.ipc")) {
-                //Do Nothing
-                System.out.println("Waiting for Sync to finish.. Watch console for progress");
+               //Do Nothing
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                } catch (InterruptedException e) {}
             }
             return Web3j.build(new UnixIpcService(ipc_path));
         }
@@ -46,9 +41,7 @@ public class Web3 {
             e.printStackTrace();
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+            } catch (InterruptedException e1) {}
             windowsIPC();
         }
     }

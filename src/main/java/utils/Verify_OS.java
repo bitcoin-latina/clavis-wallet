@@ -20,7 +20,7 @@ public class Verify_OS {
     private static boolean apple() {
         return (OS.contains("mac"));
     }
-    
+
     public static void set_os(){
         if (microsoft()) {
             Global.setOS("windows");

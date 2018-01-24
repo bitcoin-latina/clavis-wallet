@@ -1,6 +1,10 @@
 package geth;
 
 import ui.Global;
+<<<<<<< HEAD
+=======
+import utils.Sys;
+>>>>>>> fc09b114b78a75556ff3c0ec919ba79c48dd5d8b
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +19,11 @@ public class Mine {
         background.setDaemon(true);
         Global.getAppThreads().add(background);
         background = new Thread(() -> {
+<<<<<<< HEAD
             File file = new File(Global.getPath()+File.separator+"geth");
+=======
+            File file = new File(Sys.getPath()+File.separator+"geth");
+>>>>>>> fc09b114b78a75556ff3c0ec919ba79c48dd5d8b
             if (! file.exists()) {
                 System.err.println("Geth File Not Found Terminating");
                 System.exit(1);
@@ -23,8 +31,13 @@ public class Mine {
             try {
                 System.out.println("Starting Mining...");
                 //Starting Web3_Geth with flags --syncmode fast --identity Bitcoin Latina
+<<<<<<< HEAD
                 Process p = Runtime.getRuntime().exec(Global.getPath()+File.separator+"geth --datadir "+
                         Global.getPath()+File.separator+"BCL_NODE " +
+=======
+                Process p = Runtime.getRuntime().exec(Sys.getPath()+File.separator+"geth --datadir "+
+                        Sys.getPath()+File.separator+"BCL_NODE " +
+>>>>>>> fc09b114b78a75556ff3c0ec919ba79c48dd5d8b
                         "--mine");
                 synchronized (p) {
                     p.wait();
@@ -50,7 +63,11 @@ public class Mine {
         background.setDaemon(true);
         Global.getAppThreads().add(background);
         background = new Thread(() -> {
+<<<<<<< HEAD
             File file = new File(Global.getPath()+File.separator+"geth");
+=======
+            File file = new File(Sys.getPath()+File.separator+"geth");
+>>>>>>> fc09b114b78a75556ff3c0ec919ba79c48dd5d8b
             if (! file.exists()) {
                 System.err.println("Geth File Not Found Terminating");
                 System.exit(1);
@@ -58,8 +75,13 @@ public class Mine {
             try {
                 System.out.println("Starting Mining...");
                 //Starting Web3_Geth with flags --syncmode fast --identity Bitcoin Latina
+<<<<<<< HEAD
                 Process p = Runtime.getRuntime().exec(Global.getPath()+File.separator+"geth --datadir "+
                         Global.getPath()+File.separator+"BCL_NODE ");
+=======
+                Process p = Runtime.getRuntime().exec(Sys.getPath()+File.separator+"geth --datadir "+
+                        Sys.getPath()+File.separator+"BCL_NODE ");
+>>>>>>> fc09b114b78a75556ff3c0ec919ba79c48dd5d8b
                 synchronized (p) {
                     p.wait();
                 }
