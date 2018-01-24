@@ -1,12 +1,12 @@
 package ui.controllers;
 
-import init.web3j.Web3_Geth;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import org.web3j.protocol.admin.Admin;
+import ui.Global;
 import web3j.Personal;
 
 public class New_Account_Controller{
@@ -19,7 +19,7 @@ public class New_Account_Controller{
 
     public void button_press(ActionEvent e){
         //Initialize web3j functionality
-        Admin geth = new Web3_Geth().get_web3();
+        Admin geth = Global.getGeth();
         //Personal
         Personal personal = new Personal(geth, getPassword_input());
         personal.createAccount();
