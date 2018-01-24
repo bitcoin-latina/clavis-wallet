@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Clavis_Wallet_main.jnlp">
+  <information>
+    <title>Clavis Wallet</title>
+    <vendor>Bitcoin Latina Foundation</vendor>
+    <description>A lightweight Java Wallet for BCL</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Clavis_Wallet_main.jar" size="37351062" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="ui.Init"  name="Clavis_Wallet_main" />
+  <update check="background"/>
+</jnlp>
