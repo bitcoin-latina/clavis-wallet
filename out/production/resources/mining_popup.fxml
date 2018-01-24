@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="new_account_popup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.Mine_Controller">
+   <children>
+      <Pane opacity="0.96" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #353535;" text="Mining" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="125.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-mine-cart-filled-100.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutY="50.0" prefHeight="40.0" prefWidth="400.0" text="BCL Mining Account:&#10;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutY="125.0" opacity="0.44" prefWidth="400.0" text="NOTE: This may Take A Second - Be Patient :)&#10;All instances of geth will be killed temporarily" textAlignment="CENTER">
+               <font>
+                  <Font size="11.0" />
+               </font></Label>
+            <Button fx:id="mining_button" alignment="CENTER" layoutX="100.0" layoutY="165.0" mnemonicParsing="false" onAction="#letsMine" prefWidth="200.0" style="-fx-background-color: #353535;" text="Let's Mine!" textFill="WHITE" />
+            <Label fx:id="mining_address" alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="400.0" text="{ 0x6a164122d5cf7c840D26e829b46dCc4ED6C0ae48 }" textFill="#6b8f71">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
