@@ -4,8 +4,11 @@ import init.build.Commands;
 import javafx.stage.Stage;
 
 public class Mining {
+    static int mining_instance =0;
     public void start(Stage stage) throws Exception {
-        new Commands().mine();
-
+        if(mining_instance==0) {
+            new Commands().mine();
+            mining_instance = 1;
+        }
     }
 }

@@ -7,14 +7,14 @@ import java.io.IOException;
 
 public class Commands {
     //Mac Commands
-    final private String macStartCommand = "open " + Global.getPath() + File.separator + "start.command";
-    final private String macGethCommand = "open " + Global.getPath() + File.separator + "geth.command";
-    final private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
+    final static private String macStartCommand = "open " + Global.getPath() + File.separator + "start.command";
+    final static private String macGethCommand = "open " + Global.getPath() + File.separator + "geth.command";
+    final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
-    final private String winStartCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "start.cmd";
-    final private String winGethCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "geth.cmd";
-    final private String winMineCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "ethminer.cmd";
-
+    final static private String winStartCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "start.cmd";
+    final static private String winGethCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "geth.cmd";
+    final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "ethminer.cmd";
+    final static private String winKillAll = "taskkill /IM geth.exe /F";
     Process p = null;
 
     public void start() {
@@ -59,6 +59,27 @@ public class Commands {
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    public static void kill_geth() {
+        try {
+            if (Global.getOS().contains("mac")) {
+                Process p = Runtime.getRuntime().exec("killall geth");
+                synchronized (p) {
+                    p.waitFor();
+                }
+            } else if (Global.getOS().contains("win")) {
+                Process p = Runtime.getRuntime().exec(winKillAll);
+                synchronized (p) {
+                    p.waitFor();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

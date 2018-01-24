@@ -2,6 +2,7 @@ package ui;
 
 import de.codecentric.centerdevice.MenuToolkit;
 import init.Structure_Check;
+import init.build.Commands;
 import init.build.Setup_Web3;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -35,6 +36,7 @@ public class Init extends Application {
             public void handle(WindowEvent event) {
                 event.consume();
                 System.out.println("Closing Gracefully...");
+                Commands.kill_geth();
                 List<Thread> appThreads = Global.getAppThreads();
                 List<Process>appProcesses = Global.getAppProcesses();
                 for (Thread t:appThreads

@@ -26,11 +26,12 @@ public class Structure_Check {
         }
 
         //Set Path To BCL_CL Folder
+
         Global.setPath(Global.getPath() + File.separator + "BCL_CL");
 
         //Check for Files Inside of BCL_CL Folder 1 by 1
-        if (!Geth_File_Check() || !Genesis_File_Check() || !ethMiner_File_Check() ||
-                !Command_Files_Check() || !Static_Node_Check()) {
+        if (!gethCheck() || !genesisCheck() || !ethminerCheck() ||
+                !commandCheck() || !staticNodeCheck()) {
             Global.setState(0);
             new Build().binaries();
             new Build().commands();
@@ -53,7 +54,7 @@ public class Structure_Check {
         return f.exists() && f.isDirectory();
     }
 
-    private static boolean Command_Files_Check() {
+    private static boolean commandCheck() {
         //Checks for Command Files
         if (Global.getOS().contains("mac")) {
             return (!Toolkit.Is_Empty_File(File.separator + "ethminer.command") &&
@@ -67,7 +68,7 @@ public class Structure_Check {
         return false;
     }
 
-    private static boolean Geth_File_Check() {
+    private static boolean gethCheck() {
         //Checks for Geth
         File f;
         if (Global.getOS().contains("win")) {
@@ -78,13 +79,13 @@ public class Structure_Check {
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean Genesis_File_Check() {
+    private static boolean genesisCheck() {
         //Checks for Genesis File
         File f = new File(Global.getPath() + File.separator + "genesis.json");
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean ethMiner_File_Check() {
+    private static boolean ethminerCheck() {
         //Checks for Ethminer File
         File f;
         if (Global.getOS().contains("win")) {
@@ -95,7 +96,7 @@ public class Structure_Check {
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean Static_Node_Check() {
+    private static boolean staticNodeCheck() {
         //Checks for Static Node File
         File f = new File(Global.getPath() + File.separator + "BCL_Node" + File.separator +
                 "geth" + File.separator + "static-nodes.json");
