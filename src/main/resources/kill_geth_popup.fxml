@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="new_account_popup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.Kill_Geth_Controller">
+   <children>
+      <Pane opacity="0.96" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #353535;" text="Welcome to CLAVIS" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutY="79.0" opacity="0.44" prefWidth="400.0" text="Running CLAVIS Wallet Kills All Running Instances of Geth.&#10;Would You Like To Proceed?" textAlignment="CENTER" />
+            <Button fx:id="kill_button" alignment="CENTER" layoutX="14.0" layoutY="146.0" mnemonicParsing="false" onAction="#kill_geth" prefHeight="27.0" prefWidth="177.0" style="-fx-background-color: #353535;" text="YES" textFill="WHITE" />
+            <Button fx:id="kill_program" alignment="CENTER" layoutX="209.0" layoutY="146.0" mnemonicParsing="false" onAction="#quit" prefHeight="27.0" prefWidth="177.0" style="-fx-background-color: #353535;" text="NO" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
