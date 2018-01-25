@@ -315,5 +315,10 @@
          </padding>
       </Label>
       <Button fx:id="copy_address_button" layoutX="524.0" layoutY="170.0" mnemonicParsing="false" onAction="#copy_address" text="Copy Address" />
+      <Label layoutX="524.0" layoutY="212.0" text="By default all BCL &#10;accounts are locked. &#10;The unlock feature&#10;is mainly intended&#10;to be used for &#10;advanced features." textFill="#979797">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
