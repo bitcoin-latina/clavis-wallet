@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import web3j.Accounts.Account;
-import web3j.Accounts.Get_Accounts;
+import web3j.Accounts.Accounts;
 import web3j.Blocks;
 import web3j.Syncing;
 
@@ -35,12 +35,12 @@ public class Global {
         //Updates all global values
         try {
             //Initialize web3j functionality
-            Global.setAccountList(new Get_Accounts().getAccounts());
+            Global.setAccountList(new Accounts().getAccounts());
             Global.setNewest_block(Blocks.getHighestBlockNumber(Global.getWeb3j()).toString());
-            Global.setTotal_balance((new Get_Accounts()).getTotalBalance());
+            Global.setTotal_balance((new Accounts()).getTotalBalance());
             Global.setSyncing(String.format("%.2f", Syncing.getSyncingProgress() * 100) + " %");
             Global.setWallet_status(Syncing.getWalletStatus());
-            Global.setMain_account(new Get_Accounts().getAccounts().get(0));
+            Global.setMain_account(new Accounts().getAccounts().get(0));
             System.out.println("Data Updated!");
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,8 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ui.Global;
 import web3j.Accounts.Account;
-import web3j.Accounts.Get_Accounts;
-import web3j.Accounts.Unlock_Account;
+import web3j.Accounts.Accounts;
 import web3j.Personal;
 
 import java.awt.*;
@@ -54,7 +53,7 @@ public class Personal_Controller extends Dashboard_Controller{
             createAlert("No duration is entered!");
         }
         else {
-            boolean b = Unlock_Account.unlock_account_time(Global.getGeth(),
+            boolean b = Accounts.unlock_account_time(Global.getGeth(),
                     dropdown.getValue().toString(),
                     unlock_account_pass.getText(),
                     Double.valueOf(duration_field.getText()));
@@ -73,7 +72,7 @@ public class Personal_Controller extends Dashboard_Controller{
         }{
             createAlert("New Account Created: " + s);
             try {
-                set_dropdown(new Get_Accounts().getAccounts());
+                set_dropdown(new Accounts().getAccounts());
             } catch (IOException e) {
                 e.printStackTrace();
             }

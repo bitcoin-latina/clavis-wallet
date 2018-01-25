@@ -1,7 +1,7 @@
 package web3j;
 
 import ui.Global;
-import utils.Toolkit;
+import utils.Utils;
 
 import java.io.File;
 
@@ -11,7 +11,7 @@ import java.io.File;
 public class Wallet {
     public static String getWalletFile(String address){
         String keystore =File.separator+"BCL_Node"+File.separator+"keystore";
-        if(!Toolkit.Is_Empty_Directory(keystore)){
+        if(!Utils.Is_Empty_Directory(keystore)){
             File folder = new File(Global.getPath()+keystore);
             File[] listOfFiles = folder.listFiles();
 

@@ -1,5 +1,7 @@
 package web3j.Accounts;
 
+import org.web3j.protocol.admin.Admin;
+import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
@@ -13,11 +15,11 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Get_Accounts {
+public class Accounts {
     private List<String> accounts;
     private List<Account> accountList = new ArrayList<Account>();
 
-    public Get_Accounts() throws IOException {
+    public Accounts() throws IOException {
         EthAccounts ethAccounts = Global.getWeb3j().ethAccounts().send();
         accounts = ethAccounts.getAccounts();
     }
@@ -46,14 +48,38 @@ public class Get_Accounts {
                 EthGetBalance ethGetBalance = Global.getWeb3j()
                         .ethGetBalance(account, DefaultBlockParameterName.LATEST)
                         .send();
-                b = b.add(ethGetBalance.getBalance());
+                BigDecimal d = Convert.fromWei(new BigDecimal(ethGetBalance.getBalance()), Convert.Unit.ETHER);
+                return d.setScale(2, RoundingMode.FLOOR).toString();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        BigInteger conversion_factor = new BigInteger("1000000000000000000");
-        BigDecimal quotient = new BigDecimal(b)
-                .divide(new BigDecimal(conversion_factor), 2, RoundingMode.FLOOR);
-        return quotient.toString();
+        return null;
+    }
+
+    public static boolean unlock_account_time(Admin web3j, String address, String password, double timeout){
+        BigInteger duration = BigInteger.valueOf((long)(timeout*60000));
+        try {
+            PersonalUnlockAccount personalUnlockAccount =
+                    web3j.personalUnlockAccount(address, password, duration).send();
+            if(personalUnlockAccount.accountUnlocked()==null){
+                return false;
+            }
+            return (personalUnlockAccount.accountUnlocked());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean unlock_account(Admin web3j, String address, String password){
+        try {
+            PersonalUnlockAccount personalUnlockAccount =
+                    web3j.personalUnlockAccount(address, password).send();
+            return (personalUnlockAccount.accountUnlocked());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

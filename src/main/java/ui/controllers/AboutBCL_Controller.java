@@ -7,8 +7,7 @@ public class AboutBCL_Controller extends Dashboard_Controller {
         setHoverEffects();
         setOnClick();
     }
-    private void setHoverEffects(){
-        //Set Hover Effects
+    private void setHoverEffects(){//Set Hover Effects
         dashboard.setOnMouseEntered(event -> hover_side(dashboard));
         dashboard.setOnMouseExited(event -> remove_hover_side(dashboard));
         personal.setOnMouseEntered(event -> hover_side(personal));

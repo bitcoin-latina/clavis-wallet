@@ -5,7 +5,7 @@ import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.ipc.UnixIpcService;
 import org.web3j.protocol.ipc.WindowsIpcService;
 import ui.Global;
-import utils.Toolkit;
+import utils.Utils;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public class Setup {
             }
         }
         if (Global.getOS().contains("mac")) {
-            while (Toolkit.Is_Empty_File(macIPC)) {
+            while (Utils.Is_Empty_File(macIPC)) {
                 //Do Nothing But Sleep
                 try {
                     Thread.sleep(1000);

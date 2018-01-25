@@ -1,7 +1,7 @@
-package init;
+package build_structure;
 
 import ui.Global;
-import utils.Toolkit;
+import utils.Utils;
 
 import java.io.File;
 
@@ -54,13 +54,13 @@ public class Structure_Check {
     private static boolean commandCheck() {
         //Checks for Command Files
         if (Global.getOS().contains("mac")) {
-            return (!Toolkit.Is_Empty_File(File.separator + "ethminer.command") &&
-                    !Toolkit.Is_Empty_File(File.separator + "geth.command") &&
-                    !Toolkit.Is_Empty_File(File.separator + "start.command"));
+            return (!Utils.Is_Empty_File(File.separator + "ethminer.command") &&
+                    !Utils.Is_Empty_File(File.separator + "geth.command") &&
+                    !Utils.Is_Empty_File(File.separator + "start.command"));
         } else if (Global.getOS().contains("win")) {
-            return (!Toolkit.Is_Empty_File(File.separator + "ethminer.cmd") &&
-                    !Toolkit.Is_Empty_File(File.separator + "geth.cmd") &&
-                    !Toolkit.Is_Empty_File(File.separator + "start.cmd"));
+            return (!Utils.Is_Empty_File(File.separator + "ethminer.cmd") &&
+                    !Utils.Is_Empty_File(File.separator + "geth.cmd") &&
+                    !Utils.Is_Empty_File(File.separator + "start.cmd"));
         }
         return false;
     }
