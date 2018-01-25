@@ -2,7 +2,7 @@ package ui;
 
 import de.codecentric.centerdevice.MenuToolkit;
 import init.Structure_Check;
-import init.build.Commands;
+import init.Commands;
 import web3j.Setup;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;

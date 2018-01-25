@@ -1,4 +1,4 @@
-package geth;
+package web3j;
 
 import ui.Global;
 

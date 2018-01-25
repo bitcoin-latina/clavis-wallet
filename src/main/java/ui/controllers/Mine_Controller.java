@@ -1,6 +1,6 @@
 package ui.controllers;
 
-import geth.Mine;
+import web3j.Mine;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

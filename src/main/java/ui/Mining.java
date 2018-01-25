@@ -1,6 +1,6 @@
 package ui;
 
-import init.build.Commands;
+import init.Commands;
 import javafx.stage.Stage;
 
 public class Mining {

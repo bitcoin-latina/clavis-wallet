@@ -1,6 +1,5 @@
 package web3j;
 
-import geth.Wallet;
 import javafx.scene.control.Alert;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -9,7 +8,6 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-import ui.Progress;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
