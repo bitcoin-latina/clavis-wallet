@@ -10,7 +10,7 @@ task customFatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'ui.Init'
     }
-    baseName = 'all-in-one-jar'
+    baseName = 'Clavis_Wallet_main'
     from {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it)
