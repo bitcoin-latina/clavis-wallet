@@ -1,4 +1,4 @@
-package web3j.Accounts;
+package web3j.accounts;
 
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;

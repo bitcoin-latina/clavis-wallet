@@ -1,4 +1,4 @@
-package web3j.Accounts;
+package web3j.accounts;
 
 public class Account {
     private String address;

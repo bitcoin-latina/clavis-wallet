@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import ui.Global;
 import ui.Init;
 import ui.Mining;
-import web3j.Accounts.Account;
+import web3j.accounts.Account;
 
 import java.util.List;
 

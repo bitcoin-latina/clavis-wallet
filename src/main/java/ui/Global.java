@@ -4,8 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
-import web3j.Accounts.Account;
-import web3j.Accounts.Accounts;
+import web3j.accounts.Account;
+import web3j.accounts.Accounts;
 import web3j.Blocks;
 import web3j.Syncing;
 

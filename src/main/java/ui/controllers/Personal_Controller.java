@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ui.Global;
-import web3j.Accounts.Account;
-import web3j.Accounts.Accounts;
+import web3j.accounts.Account;
+import web3j.accounts.Accounts;
 import web3j.Personal;
 
 import java.awt.*;
