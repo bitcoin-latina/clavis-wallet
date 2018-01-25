@@ -1,4 +1,4 @@
-package init.build;
+package web3j;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
@@ -9,7 +9,7 @@ import utils.Toolkit;
 
 import java.io.File;
 
-public class Setup_Web3 {
+public class Setup {
     Web3j web3j;
     Admin geth;
     String macIPC = File.separator + "BCL_Node" + File.separator + "geth.ipc";

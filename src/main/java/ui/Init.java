@@ -3,7 +3,7 @@ package ui;
 import de.codecentric.centerdevice.MenuToolkit;
 import init.Structure_Check;
 import init.build.Commands;
-import init.build.Setup_Web3;
+import web3j.Setup;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -96,7 +96,7 @@ public class Init extends Application {
         //Get Web3j
         System.out.println("Structure check complete");
         //Initialize web3j functionality
-        new Setup_Web3().setupWeb3();
+        new Setup().setupWeb3();
         System.out.println("Got IPC Files");
         //Update Global Class Information
         Global.update_information();
