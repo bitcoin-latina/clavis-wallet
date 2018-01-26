@@ -42,27 +42,27 @@ public class Accounts {
     }
 
     public String getTotalBalance() {
-        BigInteger b = BigInteger.valueOf(0l);
-        for (String account : accounts) {
-            try {
+        BigDecimal d = BigDecimal.valueOf(0l);
+        try {
+            for (String account : accounts) {
                 EthGetBalance ethGetBalance = Global.getWeb3j()
                         .ethGetBalance(account, DefaultBlockParameterName.LATEST)
                         .send();
-                BigDecimal d = Convert.fromWei(new BigDecimal(ethGetBalance.getBalance()), Convert.Unit.ETHER);
-                return d.setScale(2, RoundingMode.FLOOR).toString();
-            } catch (IOException e) {
-                e.printStackTrace();
+                d = d.add(Convert.fromWei(new BigDecimal(ethGetBalance.getBalance()), Convert.Unit.ETHER));
             }
+            return d.setScale(2, RoundingMode.FLOOR).toString();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static boolean unlock_account_time(Admin web3j, String address, String password, double timeout){
-        BigInteger duration = BigInteger.valueOf((long)(timeout*60000));
+    public static boolean unlock_account_time(Admin web3j, String address, String password, double timeout) {
+        BigInteger duration = BigInteger.valueOf((long) (timeout * 60000));
         try {
             PersonalUnlockAccount personalUnlockAccount =
                     web3j.personalUnlockAccount(address, password, duration).send();
-            if(personalUnlockAccount.accountUnlocked()==null){
+            if (personalUnlockAccount.accountUnlocked() == null) {
                 return false;
             }
             return (personalUnlockAccount.accountUnlocked());
@@ -72,7 +72,7 @@ public class Accounts {
         return false;
     }
 
-    public static boolean unlock_account(Admin web3j, String address, String password){
+    public static boolean unlock_account(Admin web3j, String address, String password) {
         try {
             PersonalUnlockAccount personalUnlockAccount =
                     web3j.personalUnlockAccount(address, password).send();

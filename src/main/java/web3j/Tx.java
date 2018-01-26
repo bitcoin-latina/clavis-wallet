@@ -8,6 +8,11 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
+import rpc.Params;
+import rpc.RPC;
+import ui.Global;
+import utils.Utils;
+import web3j.accounts.Accounts;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -20,19 +25,44 @@ public class Tx {
     private String from_Address, to_Address, password;
     private Web3j web3;
     private long amount;
+    private String gasPrice;
 
-    public Tx(String from_Address, String to_Address, long amount, String password, Web3j web3) {
+    public Tx(String from_Address, String to_Address, long amount, String gasPrice, String password, Web3j web3) {
         this.from_Address = from_Address;
         this.to_Address = to_Address;
         this.amount = amount;
         this.password = password;
         this.web3 = web3;
+        this.gasPrice=gasPrice;
     }
 
     /**
      * Sending transaction from one party to the next
      */
     public void Send(){
+        System.out.println("Attempting to Unlock Account");
+        boolean b = Accounts.unlock_account_time(Global.getGeth(),from_Address, password, 60000);
+        if(b) {
+            BigInteger wei = BigInteger.valueOf(amount);
+            BigInteger conversion = BigInteger.valueOf(1000000000000000000l);
+            wei = wei.multiply(conversion);
+            long gasP = (long) Double.parseDouble(gasPrice);
+            System.out.println(gasP);
+            System.out.println(wei.toString());
+            //All values must be in hex
+            Params params = new Params();
+            params.addParam("from", from_Address);
+            params.addParam("to", to_Address);
+            params.addParam("gasPrice", Utils.toHex(BigInteger.valueOf(gasP)));
+            params.addParam("value", Utils.toHex(wei));
+
+            RPC.rpc_call("eth_sendTransaction", params);
+        }
+        else {
+            createAlert("Incorrect Password");
+        }
+    }
+    public void oldSend(){
         Credentials credentials;
         try {
 //            getAnEstimate();

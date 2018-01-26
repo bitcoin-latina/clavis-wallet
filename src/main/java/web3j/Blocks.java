@@ -5,13 +5,11 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
-import rx.Subscription;
 import ui.Global;
 import ui.controllers.Controller;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Handles web3 calls reguarding block information

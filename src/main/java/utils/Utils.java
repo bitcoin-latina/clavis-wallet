@@ -62,4 +62,7 @@ public class Utils {
             return true;
         }
     }
+    public static String toHex(BigInteger b){
+        return "0x"+b.toString(16);
+    }
 }

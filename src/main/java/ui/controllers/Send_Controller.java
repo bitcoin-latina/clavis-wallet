@@ -1,9 +1,7 @@
 package ui.controllers;
 
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import ui.Global;
-import ui.Progress;
 import web3j.Gas;
 import web3j.Tx;
 
@@ -51,7 +49,7 @@ public class Send_Controller extends Dashboard_Controller {
         gas_price_slider.setMin(0);
         gas_price_slider.setMax(Gas.getGasLimit(Global.getWeb3j()).doubleValue());
         gas_price_slider.setBlockIncrement(100000);
-        gas_price_slider.adjustValue(.75 * (Gas.getGasLimit(Global.getWeb3j()).doubleValue()));
+        gas_price_slider.adjustValue(.1 * (Gas.getGasLimit(Global.getWeb3j()).doubleValue()));
     }
 
     private double getGasPrice() {
@@ -77,12 +75,10 @@ public class Send_Controller extends Dashboard_Controller {
         } else {
             Tx transaction = new Tx(getDropdown(),
                     getToAddress(),
-                    Long.parseLong(getAmount()), getPass_field(), Global.getWeb3j());
+                    Long.parseLong(getAmount()), String.valueOf(getGasPrice()), getPass_field(), Global.getWeb3j());
             transaction.Send();
             clearValues();
 //            Progress.kill();
-            createAlert("Transaction Submitted - Watch Client Window For Confirmation" +
-                    "\nPlease do not submit again unless you want to spend again!");
         }
     }
 
