@@ -39,6 +39,8 @@ public class RPC {
 
             HttpURLConnection connection = null;
             connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type",
+                    "application/json");
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.connect();
