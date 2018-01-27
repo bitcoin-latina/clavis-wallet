@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="new_account_popup" fx:controller="ui.controllers.New_Account_Controller" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane opacity="0.96" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #353535;" text="New Account" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <padding>
+                  <Insets left="40.0" />
+               </padding>
+            </Label>
+            <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="90.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/icons8-add-wfilled-100.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutY="50.0" prefHeight="40.0" prefWidth="400.0" text="Enter your password below:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="password_input" layoutX="75.0" layoutY="90.0" prefHeight="10.0" prefWidth="250.0" />
+            <Label alignment="CENTER" layoutY="125.0" opacity="0.44" prefWidth="400.0" text="NOTE: If password is lost, funds cannot be recovered! &#10;Treat it like the millions it may be worth someday...&#10;" textAlignment="CENTER">
+               <font>
+                  <Font size="11.0" />
+               </font></Label>
+            <Button id="new_account_submit" onAction="#button_press" alignment="CENTER" layoutX="100.0" layoutY="165.0" mnemonicParsing="false" prefWidth="200.0" style="-fx-background-color: #353535;" text="SUBMIT" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
