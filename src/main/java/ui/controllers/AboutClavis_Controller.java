@@ -1,6 +1,6 @@
 package ui.controllers;
 
-public class AboutClavis_Controller extends Dashboard_Controller{
+public class AboutClavis_Controller extends Dashboard_Controller {
     public void initialize(){
         global_init();
         setPaneHoverEffects();

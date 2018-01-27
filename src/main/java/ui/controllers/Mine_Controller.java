@@ -1,12 +1,12 @@
 package ui.controllers;
 
-import web3j.Mine;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ui.Global;
+import web3j.Mine;
 
 public class Mine_Controller{
     @FXML
@@ -14,7 +14,7 @@ public class Mine_Controller{
     public Label mining_address;
 
     public void init(){
-        mining_address.setText("{ "+Global.getMain_account().getAddress()+" }");
+        mining_address.setText("{ "+ Global.getMain_account().getAddress()+" }");
 
     }
     public void letsMine(javafx.event.ActionEvent e){

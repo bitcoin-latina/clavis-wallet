@@ -12,7 +12,7 @@ import web3j.accounts.Account;
 
 import java.util.List;
 
-public class Dashboard_Controller extends Controller{
+public class Dashboard_Controller extends Controller {
     @FXML
     public Label BCL_Monitor_Text;
     @FXML

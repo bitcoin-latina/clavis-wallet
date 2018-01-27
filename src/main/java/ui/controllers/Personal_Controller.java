@@ -6,9 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ui.Global;
+import web3j.Personal;
 import web3j.accounts.Account;
 import web3j.accounts.Accounts;
-import web3j.Personal;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -16,7 +16,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.util.List;
 
-public class Personal_Controller extends Dashboard_Controller{
+public class Personal_Controller extends Dashboard_Controller {
     public Button new_account_button;
     public Button unlock_button;
     public Label created_address;
