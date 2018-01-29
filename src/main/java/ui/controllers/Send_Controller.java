@@ -70,12 +70,12 @@ public class Send_Controller extends Dashboard_Controller {
             createAlert("Please select enter a valid to address");
         } else if (getGasPrice() == 0) {
             createAlert("Transaction will not go through");
-        } else if (getAmount() == null || Integer.valueOf(getAmount()) <= 0) {
+        } else if (getAmount() == null || Double.valueOf(getAmount()) <= 0) {
             createAlert("Please set a valid amount to send");
         } else {
             Tx transaction = new Tx(getDropdown(),
                     getToAddress(),
-                    Long.parseLong(getAmount()), String.valueOf(getGasPrice()), getPass_field(), Global.getWeb3j());
+                    Double.parseDouble(getAmount()), String.valueOf(getGasPrice()), getPass_field(), Global.getWeb3j());
             transaction.Send();
             clearValues();
 //            Progress.kill();

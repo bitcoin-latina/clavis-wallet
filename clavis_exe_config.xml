@@ -2,7 +2,7 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>/Users/andrew_nguyen/Desktop/test.jar</jar>
+  <jar>/Users/andrew_nguyen/Desktop/test2.jar</jar>
   <outfile>/Users/andrew_nguyen/Desktop/Builds/Windows/Clavis Wallet3.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>

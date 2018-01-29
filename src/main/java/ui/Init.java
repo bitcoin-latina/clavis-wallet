@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import ui.controllers.*;
 import utils.Utils;
@@ -64,6 +65,8 @@ public class Init extends Application {
         Global.setLoader(loader);
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UNIFIED);
         stage.setAlwaysOnTop(false);
         stage.getIcons().add(new Image(Init.class.getResourceAsStream("/Images/icon.png")));
         stage.show();

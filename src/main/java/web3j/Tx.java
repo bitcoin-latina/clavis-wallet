@@ -24,10 +24,10 @@ import java.math.BigInteger;
 public class Tx {
     private String from_Address, to_Address, password;
     private Web3j web3;
-    private long amount;
+    private double amount;
     private String gasPrice;
 
-    public Tx(String from_Address, String to_Address, long amount, String gasPrice, String password, Web3j web3) {
+    public Tx(String from_Address, String to_Address, double amount, String gasPrice, String password, Web3j web3) {
         this.from_Address = from_Address;
         this.to_Address = to_Address;
         this.amount = amount;
@@ -43,9 +43,9 @@ public class Tx {
         System.out.println("Attempting to Unlock Account");
         boolean b = Accounts.unlock_account_time(Global.getGeth(),from_Address, password, 60000);
         if(b) {
-            BigInteger wei = BigInteger.valueOf(amount);
+
             BigInteger conversion = BigInteger.valueOf(1000000000000000000l);
-            wei = wei.multiply(conversion);
+            BigDecimal wei = BigDecimal.valueOf(amount*(conversion).doubleValue());
             long gasP = (long) Double.parseDouble(gasPrice);
             System.out.println(gasP);
             System.out.println(wei.toString());
@@ -54,7 +54,7 @@ public class Tx {
             params.addParam("from", from_Address);
             params.addParam("to", to_Address);
             params.addParam("gasPrice", Utils.toHex(BigInteger.valueOf(gasP)));
-            params.addParam("value", Utils.toHex(wei));
+            params.addParam("value", Utils.toHex(wei.toBigInteger()));
 
             RPC.rpc_call("eth_sendTransaction", params, true);
         }
@@ -84,7 +84,7 @@ public class Tx {
     }
     private void getAnEstimate(){
         Transaction transaction = Transaction.createContractTransaction(from_Address, BigInteger.valueOf(0),
-                Gas.getGasPrice(web3), Gas.getGasLimit(web3), BigInteger.valueOf(amount),"");
+                Gas.getGasPrice(web3), Gas.getGasLimit(web3), BigDecimal.valueOf(amount).toBigInteger(),"");
         System.out.println("Estimated Gas: " + Gas.estimateGas(web3, transaction));
     }
     private void createAlert(String message){
