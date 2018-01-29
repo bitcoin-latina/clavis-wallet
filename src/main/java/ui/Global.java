@@ -38,7 +38,8 @@ public class Global {
             Global.setAccountList(new Accounts().getAccounts());
             Global.setNewest_block(Blocks.getHighestBlockNumber(Global.getWeb3j()).toString());
             Global.setTotal_balance((new Accounts()).getTotalBalance());
-            Global.setSyncing(String.format("%.2f", Syncing.getSyncingProgress() * 100) + " %");
+            if(!(Syncing.getSyncingProgress()<0))
+                Global.setSyncing(String.format("%.2f", Syncing.getSyncingProgress() * 100) + " %");
             Global.setWallet_status(Syncing.getWalletStatus());
             Global.setMain_account(new Accounts().getAccounts().get(0));
             System.out.println("Data Updated!");

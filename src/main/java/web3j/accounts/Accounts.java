@@ -57,6 +57,20 @@ public class Accounts {
         return null;
     }
 
+    public static boolean accounts_check(){
+        try {
+            EthAccounts ethAccounts = Global.getWeb3j().ethAccounts().send();
+            if(ethAccounts.getAccounts().size()==0){
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            accounts_check();
+        }
+        return false;
+    }
+
     public static boolean unlock_account_time(Admin web3j, String address, String password, double timeout) {
         BigInteger duration = BigInteger.valueOf((long) (timeout * 60000));
         try {

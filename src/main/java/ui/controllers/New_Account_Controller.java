@@ -7,6 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import org.web3j.protocol.admin.Admin;
 import ui.Global;
+import ui.Init;
 import web3j.Personal;
 
 public class New_Account_Controller{
@@ -27,5 +28,7 @@ public class New_Account_Controller{
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+        System.out.println("Account Sucessfully Created");
+        Init.start();
     }
 }

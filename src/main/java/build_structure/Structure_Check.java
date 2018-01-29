@@ -37,6 +37,7 @@ public class Structure_Check {
 
         if (Global.getState() == 0) {
             //Uninitialized
+            System.out.println("Start Command Issued");
             new Commands().start();
         } else {
             //Initialized

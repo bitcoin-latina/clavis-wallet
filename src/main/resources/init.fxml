@@ -15,7 +15,7 @@
             <Image url="@Images/metro.png" />
          </image>
       </ImageView>
-      <Label fx:id="init_label" alignment="CENTER" layoutY="550.0" prefHeight="25.0" prefWidth="800.0" text="Welcome to Clavis Wallet-V 1.0" textFill="WHITE" />
+      <Label fx:id="init_label" alignment="CENTER" layoutY="550.0" prefHeight="25.0" prefWidth="800.0" text="Welcome to Clavis Wallet-V 1.1" textFill="WHITE" />
       <Pane layoutY="550.0" opacity="0.28" prefHeight="25.0" prefWidth="800.0" style="-fx-background-color: white;" />
       <Label alignment="CENTER" layoutY="50.0" prefHeight="200.0" prefWidth="800.0" text="Bitcoin Latina" textFill="WHITE" translateY="-10.0">
          <font>

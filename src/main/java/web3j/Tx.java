@@ -56,7 +56,7 @@ public class Tx {
             params.addParam("gasPrice", Utils.toHex(BigInteger.valueOf(gasP)));
             params.addParam("value", Utils.toHex(wei));
 
-            RPC.rpc_call("eth_sendTransaction", params);
+            RPC.rpc_call("eth_sendTransaction", params, true);
         }
         else {
             createAlert("Incorrect Password");

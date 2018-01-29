@@ -15,11 +15,15 @@ import ui.controllers.*;
 import utils.Utils;
 import web3j.Setup;
 import web3j.Subscribe;
+import web3j.accounts.Accounts;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Init extends Application {
+    private static final Logger LOGGER = Logger.getLogger( Init.class.getName() );
 
     public static void main(String[] args) {
         launch(args);
@@ -27,8 +31,10 @@ public class Init extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         stage.setOnCloseRequest(event -> {//If closing wallet...
             event.consume();
+            LOGGER.log(Level.FINE, "Closing Main Windows Initiated...");
             System.out.println("Closing Gracefully...");
             Commands.kill_geth();
             List<Thread> appThreads = Global.getAppThreads();
@@ -36,19 +42,21 @@ public class Init extends Application {
             for (Thread t : appThreads
                     ) {
                 t.interrupt();
+                LOGGER.log(Level.FINE, "Killing Threads...");
                 System.out.println("Killing Thread");
             }
             for (Process p : appProcesses
                     ) {
                 if (p != null)
                     p.destroyForcibly();
+                LOGGER.log(Level.FINE, "Killing Processes...");
                 System.out.println("Killing Process");
             }
             Runtime.getRuntime();
             Platform.exit();
             System.exit(0);
         });
-
+        LOGGER.log(Level.FINE, "Creating new splash screen window");
         //Create Bootup Window
         Global.setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("init.fxml"));
@@ -61,9 +69,7 @@ public class Init extends Application {
         stage.show();
         //Allows Splash Screen To Show Before Loading Geth
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
-        pause.setOnFinished(event -> {
-            initialize();
-        });
+        pause.setOnFinished(event -> initialize());
         //Start the pause
         pause.play();
     }
@@ -77,6 +83,20 @@ public class Init extends Application {
         System.out.println("Structure check complete");
         //Initialize web3j functionality
         new Setup().setupWeb3();
+        //check for accounts if none create a popup
+        if(!Accounts.accounts_check()){
+            System.out.println("No accounts found");
+            try {
+                new New_Account().start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            start();
+        }
+    }
+    public static void start(){
         //Update Global Class Information
         Global.update_information();
         //Subscribe Once
@@ -84,7 +104,6 @@ public class Init extends Application {
         //Fire Up Dashboard
         toAnotherPage("dashboard.fxml");
     }
-
     public static void toAnotherPage(String page_name) {
         try {
             FXMLLoader loader = new FXMLLoader(Init.class.getClassLoader().getResource(page_name));

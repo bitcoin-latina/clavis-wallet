@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class RPC {
 
-    public static void rpc_call(String method, Params params) {
+    public static String rpc_call(String method, Params params, Boolean popups) {
         //Create the json request object
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -28,10 +28,11 @@ public class RPC {
             System.err.println("Invalid Json Error");
         }
         System.out.println(jsonRequest.toString());
-        sendRPC(jsonRequest);
+        return sendRPC(jsonRequest, popups);
     }
 
-    private static String sendRPC(JSONObject j) {
+    //TODO handle "ERROR" return
+    private static String sendRPC(JSONObject j, Boolean popups) {
         URL url = null;
         OutputStream out = null;
         try {
@@ -39,9 +40,9 @@ public class RPC {
 
             HttpURLConnection connection = null;
             connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
                     "application/json");
-            connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.connect();
             out = connection.getOutputStream();
@@ -52,7 +53,7 @@ public class RPC {
 
             int statusCode = connection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
-                System.err.println("Status is not okay");
+                createAlert("Status is not okay STATUS CODE:"+ statusCode);
             }
 
             InputStream in = connection.getInputStream();
@@ -68,11 +69,19 @@ public class RPC {
 
             JsonElement result = resp.get("result");
             JsonElement error = resp.get("error");
-            if(result!=null)
-                createAlert(result.toString());
-            if(error!=null)
-                createErrorAlert(error.toString());
-
+            if(popups) {
+                if (result != null)
+                    createAlert(result.toString());
+                if (error != null)
+                    createErrorAlert(error.toString());
+            }
+            else{
+                if (result != null)
+                    System.err.println(result.toString());
+                if (error != null)
+                    System.err.println(error.toString());
+            }
+            return result.toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
