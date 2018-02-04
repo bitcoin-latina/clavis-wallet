@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import ui.controllers.*;
 import utils.Utils;
@@ -37,7 +36,7 @@ public class Init extends Application {
             event.consume();
             LOGGER.log(Level.FINE, "Closing Main Windows Initiated...");
             System.out.println("Closing Gracefully...");
-            Commands.kill_geth();
+            Commands.kill_geth_ethminer();
             List<Thread> appThreads = Global.getAppThreads();
             List<Process> appProcesses = Global.getAppProcesses();
             for (Thread t : appThreads

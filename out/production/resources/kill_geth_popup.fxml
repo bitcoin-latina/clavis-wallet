@@ -11,7 +11,7 @@
    <children>
       <Pane opacity="0.96" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #353535;" text="Welcome to CLAVIS" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #353535;" text="Which Account to Copy?" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>

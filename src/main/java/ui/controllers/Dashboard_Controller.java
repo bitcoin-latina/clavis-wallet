@@ -1,15 +1,23 @@
 package ui.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import ui.Global;
-import ui.Init;
-import ui.Mining;
+import ui.*;
 import web3j.accounts.Account;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
 public class Dashboard_Controller extends Controller {
@@ -89,13 +97,18 @@ public class Dashboard_Controller extends Controller {
     }
     private void setMainAccount(Account a){
         Main_Account_Address.setText(a.getAddress());
+        //NEW
+        Main_Account_Address.setOnMouseClicked(mouseEvent -> doubleClickCopy(mouseEvent));
         Main_Account_Balance.setText(a.getBalance());
     }
 
     private void setTotalBalance(String s){
         balance.setText(String.format("%,.2f", Double.valueOf(s)));
     }
+    @FXML
+    private void copy_accounts(){
 
+    }
     private void setOtherAccounts(List<Account> list){
         if(list.size()<2){
             Other_Accounts.setText("There are no other accounts to display at this time...\n" +
@@ -111,6 +124,37 @@ public class Dashboard_Controller extends Controller {
                         append("\n\n");
             }
             Other_Accounts.setText(sb.toString());
+            Other_Accounts.setOnMouseClicked(event -> {
+                if(event.getClickCount() == 2){
+                    //Create a list of current accounts
+                    if(Global.getAccountList().size()<2){
+                        //Do Nothing
+                    }
+                    else {
+                        try {
+                            new Copy_Popup().start(new Stage());
+                            new Copy_Popup_Controller().initialize();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
+        }
+    }
+
+    private void doubleClickCopy(MouseEvent mouseEvent){
+        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+            if(mouseEvent.getClickCount() == 2){
+                String s = Main_Account_Address.getText();
+                if(s!=null) {
+                    StringSelection selection = new StringSelection(s.toString());
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                    createAlert("Address Copied!");
+                }
+            }
         }
     }
 
@@ -182,5 +226,12 @@ public class Dashboard_Controller extends Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    //TODO make a global static function
+    private void createAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Message");
+        alert.setHeaderText(message);
+        alert.show();
     }
 }

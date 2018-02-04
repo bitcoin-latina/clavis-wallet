@@ -11,12 +11,13 @@ public class Commands {
     //Mac Commands
     final static private String macStartCommand = Global.getPath() + File.separator + "start.command";
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
-    final static private String macMineCommand = Global.getPath() + File.separator + "ethminer.command";
+    final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
     final static private String winStartCommand = Global.getPath() + File.separator + "start.cmd";
     final static private String winGethCommand = Global.getPath() + File.separator + "geth.cmd";
-    final static private String winMineCommand = Global.getPath() + File.separator + "ethminer.cmd";
-    final static private String winKillAll = "taskkill /IM geth.exe /F";
+    final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "ethminer.cmd";
+    final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
+    final static private String winKillAllEthminer = "taskkill /IM ethminer.exe /F";
     Process p = null;
 
     public void start() {
@@ -60,36 +61,41 @@ public class Commands {
     }
 
     public void mine() {
-        Runnable r = () -> {
-            try {
-                ProcessBuilder pb = null;
-                if (Global.getOS().contains("mac")) {
-                    /* Create the ProcessBuilder */
-                    pb = new ProcessBuilder(macMineCommand);
-                } else if (Global.getOS().contains("win")) {
-                    pb = new ProcessBuilder(winMineCommand);
-                }
-                startProcess(pb);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
+        try {
+            switch (Global.getOS()) {
+                case "mac":
+                    p = Runtime.getRuntime().exec(macMineCommand);
+                    break;
+                case "windows":
+                    p = Runtime.getRuntime().exec(winMineCommand);
+                    break;
             }
-        };
-
-        new Thread(r).start();
+            Global.getAppProcesses().add(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
-    public static void kill_geth() {
+    public static void kill_geth_ethminer() {
         try {
             if (Global.getOS().contains("mac")) {
                 Process p = Runtime.getRuntime().exec("killall geth");
+                Process p2 = Runtime.getRuntime().exec("killall ethminer");
                 synchronized (p) {
                     p.waitFor();
                 }
+                synchronized (p2) {
+                    p2.waitFor();
+                }
             } else if (Global.getOS().contains("win")) {
-                Process p = Runtime.getRuntime().exec(winKillAll);
+                Process p = Runtime.getRuntime().exec(winKillAllGeth);
+                Process p2 = Runtime.getRuntime().exec(winKillAllEthminer);
                 synchronized (p) {
                     p.waitFor();
+                }
+                synchronized (p2) {
+                    p2.waitFor();
                 }
             }
         } catch (IOException e) {
