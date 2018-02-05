@@ -4,24 +4,26 @@ import ui.Global;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Mine {
     /**
-     * Starts Geth with Mining Enabled
+     * Starts Geth with Mining_Popup Enabled
      *
      */
+    private static final Logger LOGGER = Logger.getLogger(Mine.class.getName());
     public static void start_mining(){
+        LOGGER.addHandler(Global.getLog_fh());
         Thread background = new Thread();
         background.setDaemon(true);
         Global.getAppThreads().add(background);
         background = new Thread(() -> {
             File file = new File(Global.getPath()+File.separator+"geth");
             if (! file.exists()) {
-                System.err.println("Geth File Not Found Terminating");
+                LOGGER.warning("GETH FILE NOT FOUND TERMINATING");
                 System.exit(1);
             }
             try {
-                System.out.println("Starting Mining...");
                 //Starting Web3_Geth with flags --syncmode fast --identity Bitcoin Latina
                 Process p = Runtime.getRuntime().exec(Global.getPath()+File.separator+"geth --datadir "+
                         Global.getPath()+File.separator+"BCL_NODE " +
@@ -37,6 +39,7 @@ public class Mine {
             }
         });
         background.start();
+        //TODO Why Sleep?
         try {
             Thread.sleep(10000);
             Global.update_information();
@@ -52,11 +55,10 @@ public class Mine {
         background = new Thread(() -> {
             File file = new File(Global.getPath()+File.separator+"geth");
             if (! file.exists()) {
-                System.err.println("Geth File Not Found Terminating");
+                LOGGER.warning("Geth File Not Found Terminating");
                 System.exit(1);
             }
             try {
-                System.out.println("Starting Mining...");
                 //Starting Web3_Geth with flags --syncmode fast --identity Bitcoin Latina
                 Process p = Runtime.getRuntime().exec(Global.getPath()+File.separator+"geth --datadir "+
                         Global.getPath()+File.separator+"BCL_NODE ");

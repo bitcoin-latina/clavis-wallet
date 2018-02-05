@@ -16,12 +16,4 @@ public class Account {
     public String getBalance() {
         return balance;
     }
-
-    public void setBalance(String balance) {
-        this.balance = String.format(String.format("%,.2f",Double.valueOf(balance)));
-    }
-    public void clear(){
-        address=null;
-        balance=null;
-    }
 }

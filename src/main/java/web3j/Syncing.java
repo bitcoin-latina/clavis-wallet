@@ -2,6 +2,7 @@ package web3j;
 
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
+import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.methods.response.EthSyncing;
 import rpc.Params;
 import rpc.RPC;
@@ -9,39 +10,46 @@ import ui.Global;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.logging.Logger;
 
 public class Syncing {
-    public static double getSyncingProgress(){
-        String result =RPC.rpc_call("eth_syncing",new Params(), false);
-        if(result.toLowerCase().equals("error")){
-            System.out.println("Syncing contains error");
+    private static final Logger LOGGER = Logger.getLogger(Syncing.class.getName());
+
+    public static double getSyncingProgress() {
+        LOGGER.addHandler(Global.getLog_fh());
+        String result = RPC.rpc_call("eth_syncing", new Params(), false);
+        LOGGER.info("Syncing RPC Call :" + result);
+        if (result.toLowerCase().equals("error")) {
             return 0;
-        }
-        else{
-            //Parse
-            if(result.toLowerCase().equals("false")){
-                System.out.println("Syncing percentage returned false...");
-                if(Blocks.getHighestBlockNumber(Global.getWeb3j()).longValue()>1){
-                    if(.95<Blocks.getBlockNumber(Global.getWeb3j()).doubleValue()/
+        } else {
+            if (result.toLowerCase().equals("false")) {
+                if (Blocks.getHighestBlockNumber(Global.getWeb3j()).longValue() > 1) {
+                    if (.95 < Blocks.getBlockNumber(Global.getWeb3j()).doubleValue() /
                             (Blocks.getHighestBlockNumber(Global.getWeb3j()).doubleValue()))
                         return 1;
                 }
                 return -1;
-            }
-            else {
+            } else {
                 JSONObject res = new JSONObject(result);
                 BigInteger highest_block = new BigInteger(res.getString("highestBlock").substring(2), 16);
                 BigInteger currentBlock = new BigInteger(res.getString("currentBlock").substring(2), 16);
+                LOGGER.info("Highest Block Number "+ highest_block + "\nCurrent Block "+ currentBlock);
                 return currentBlock.doubleValue() / highest_block.doubleValue();
             }
         }
     }
-    public static String getWalletStatus(){
-        if(isSyncing()){ return "Syncing..."; }
-        else if (getSyncingProgress() > .99) { return "Synced!"; }
-        else{ return "Not Synced."; }
+
+    public static String getWalletStatus() {
+        if (isSyncing()) {
+            return "Syncing...";
+        } else if (getSyncingProgress() > .99) {
+            return "Synced!";
+        } else {
+            return "Not Synced.";
+        }
     }
-    public static boolean isSyncing(){
+
+    private static boolean isSyncing() {
         try {
             EthSyncing ethSyncing = Global.getWeb3j().ethSyncing().send();
             return ethSyncing.isSyncing();

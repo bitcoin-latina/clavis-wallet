@@ -10,91 +10,67 @@ import ui.controllers.Controller;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 /**
  * Handles web3 calls reguarding block information
  */
 public class Blocks {
-    /**
-     * Function returns latest block number
-     * @param web3
-     * @return Latest Block number on your node
-     */
-    public static BigInteger getBlockNumber(Web3j web3){
+    private static final Logger LOGGER = Logger.getLogger(Blocks.class.getName());
+    public static BigInteger getBlockNumber(Web3j web3) {
+        LOGGER.addHandler(Global.getLog_fh());
         BigInteger blockNumber = BigInteger.valueOf(0);
         try {
             EthBlockNumber ethBlockNumber = web3.ethBlockNumber().send();
             blockNumber = ethBlockNumber.getBlockNumber();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning("UNABLE TO GET BLOCK NUM "+ Arrays.toString(e.getStackTrace()));
         }
         return blockNumber;
     }
+
     public static BigInteger getHighestBlockNumber(Web3j web3) {
-        StringBuilder sb=new StringBuilder(Global.getBCL_monitor());
+        LOGGER.addHandler(Global.getLog_fh());
+        StringBuilder sb = new StringBuilder(Global.getBCL_monitor());
         BigInteger blockNumber = BigInteger.valueOf(0);
         try {
             EthBlock highestBlock = web3.
                     ethGetBlockByNumber(DefaultBlockParameter.valueOf("pending"),
                             false).send();
             blockNumber = highestBlock.getBlock().getNumber();
-            StringBuilder stringBuilder = new StringBuilder(("Block " +blockNumber +" mined\n"));
+            StringBuilder stringBuilder = new StringBuilder(("Block " + blockNumber + " mined\n"));
             stringBuilder = stringBuilder.reverse();
-            if(!sb.toString().contains(stringBuilder.toString())) {
+            if (!sb.toString().contains(stringBuilder.toString())) {
                 sb.append(stringBuilder.toString());
                 Global.setBCL_monitor(sb.reverse().toString());
                 sb.reverse();
                 Global.setBCL_monitor(sb.toString());
             }
-        }
-        catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.warning("UNABLE TO GET HIGHEST BLOCK NUM "+ Arrays.toString(e.getStackTrace()));
         }
         return blockNumber;
     }
-    public void subscribe(){
-//        StringBuilder sb=new StringBuilder(Global.getBCL_monitor());
-////        Subscription subscription = Global.getWeb3j().blockObservable(false).subscribe(block -> {
-////            Platform.runLater(() -> {
-////                try {
-////                    //Appending blocks at the beginning
-////                    StringBuilder stringBuilder = new StringBuilder("Block " + block.getBlock().getNumber() +
-////                            " mined \n");
-////                    stringBuilder = stringBuilder.reverse();
-////                    sb.append(stringBuilder.toString());
-////                    Global.setBCL_monitor(sb.reverse().toString());
-//                    sb.reverse();
-//                    Global.setBCL_monitor(sb.toString());
-////                    //Update information everytime something is mined
-////                    Global.update_information();
-////                    //Display to UI
-////                    Controller d= Global.getLoader().getController();
-////                    d.initialize();
-////                }catch (Exception e){
-////                    e.printStackTrace();
-////                }
-////            });
-////        }, Throwable::printStackTrace);
-////        try {
-////            TimeUnit.SECONDS.sleep(2);
-////        } catch (InterruptedException e) {
-////            e.printStackTrace();
-////        }
+
+    public void subscribe() {
+        LOGGER.addHandler(Global.getLog_fh());
         try {
+            //Update Every 5 Seconds
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
+            //Update Ui From Background Thread
             Platform.runLater(() -> {
                 Global.update_information();
                 //Display to UI
                 Controller d = Global.getLoader().getController();
                 d.initialize();
             });
-        }
-        catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.info("UNABLE TO UPDATE" + Arrays.toString(e.getStackTrace()));
         }
     }
 }

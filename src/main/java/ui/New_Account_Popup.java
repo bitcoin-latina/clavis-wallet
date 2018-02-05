@@ -11,7 +11,7 @@ import web3j.accounts.Accounts;
 /**
  * If no accounts created: Popup
  */
-public class New_Account {
+public class New_Account_Popup {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().
                 getClassLoader().getResource("new_account_popup.fxml"));
@@ -26,7 +26,6 @@ public class New_Account {
         stage.setOnCloseRequest(event -> {//If closing popup
             event.consume();
             if(!Accounts.accounts_check()){
-                System.err.println("Popup Closed Prematurely");
                 Platform.exit();
                 System.exit(0);
             }

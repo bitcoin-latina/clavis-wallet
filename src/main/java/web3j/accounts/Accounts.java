@@ -13,36 +13,40 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Accounts {
+    private static final Logger LOGGER = Logger.getLogger(Accounts.class.getName());
     private List<String> accounts;
-    private List<Account> accountList = new ArrayList<Account>();
+    private List<Account> accountList = new ArrayList<>();
 
     public Accounts() throws IOException {
+        LOGGER.addHandler(Global.getLog_fh());
         EthAccounts ethAccounts = Global.getWeb3j().ethAccounts().send();
         accounts = ethAccounts.getAccounts();
     }
 
     public List<Account> getAccounts() {
         try {
-            for (int i = 0; i < accounts.size(); ++i) {
+            for (String account : accounts) {
                 EthGetBalance ethGetBalance = Global.getWeb3j()
-                        .ethGetBalance(accounts.get(i), DefaultBlockParameterName.LATEST)
+                        .ethGetBalance(account, DefaultBlockParameterName.LATEST)
                         .send();
                 BigDecimal b = Convert.fromWei(new BigDecimal(ethGetBalance.getBalance()), Convert.Unit.ETHER);
-                accountList.add(new Account(accounts.get(i), b.setScale(2, RoundingMode.FLOOR)
+                accountList.add(new Account(account, b.setScale(2, RoundingMode.FLOOR)
                         + " BCL"));
             }
             return accountList;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning("UNABLE GET ACCOUNTS \n\n" + Arrays.toString(e.getStackTrace()));
         }
         return null;
     }
 
     public String getTotalBalance() {
-        BigDecimal d = BigDecimal.valueOf(0l);
+        BigDecimal d = BigDecimal.valueOf(0L);
         try {
             for (String account : accounts) {
                 EthGetBalance ethGetBalance = Global.getWeb3j()
@@ -52,7 +56,7 @@ public class Accounts {
             }
             return d.setScale(2, RoundingMode.FLOOR).toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning("UNABLE TO GET TOTAL BALANCE\n\n " + Arrays.toString(e.getStackTrace()));
         }
         return null;
     }
@@ -60,12 +64,9 @@ public class Accounts {
     public static boolean accounts_check(){
         try {
             EthAccounts ethAccounts = Global.getWeb3j().ethAccounts().send();
-            if(ethAccounts.getAccounts().size()==0){
-                return false;
-            }
-            return true;
+            return ethAccounts.getAccounts().size() != 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning("UNABLE TO GET ACCOUNTS " + Arrays.toString(e.getStackTrace()));
             accounts_check();
         }
         return false;
@@ -81,18 +82,7 @@ public class Accounts {
             }
             return (personalUnlockAccount.accountUnlocked());
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean unlock_account(Admin web3j, String address, String password) {
-        try {
-            PersonalUnlockAccount personalUnlockAccount =
-                    web3j.personalUnlockAccount(address, password).send();
-            return (personalUnlockAccount.accountUnlocked());
-        } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning("UNABLE TO UNLOCK ACCOUNT\n\n" + Arrays.toString(e.getStackTrace()));
         }
         return false;
     }

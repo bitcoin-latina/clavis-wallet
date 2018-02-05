@@ -6,17 +6,23 @@ import com.google.gson.JsonParser;
 import javafx.scene.control.Alert;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ui.Global;
+import ui.Init;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class RPC {
-
+    private static final Logger LOGGER = Logger.getLogger(RPC.class.getName());
     public static String rpc_call(String method, Params params, Boolean popups) {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Attempting RPC Call");
         //Create the json request object
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -25,20 +31,18 @@ public class RPC {
             jsonRequest.put("params", params.getJsonArray());
             jsonRequest.put("id", UUID.randomUUID().hashCode());
         } catch (JSONException e1) {
-            System.err.println("Invalid Json Error");
+            LOGGER.warning("INVALID JSON ERROR");
         }
-        System.out.println(jsonRequest.toString());
         return sendRPC(jsonRequest, popups);
     }
 
     //TODO handle "ERROR" return
     private static String sendRPC(JSONObject j, Boolean popups) {
-        URL url = null;
+        URL url;
         OutputStream out = null;
         try {
             url = new URL("http://127.0.0.1:8545");
-
-            HttpURLConnection connection = null;
+            HttpURLConnection connection;
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
@@ -75,18 +79,10 @@ public class RPC {
                 if (error != null)
                     createErrorAlert(error.toString());
             }
-            else{
-                if (result != null)
-                    System.err.println(result.toString());
-                if (error != null)
-                    System.err.println(error.toString());
-            }
+            assert result != null;
             return result.toString();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
+            LOGGER.warning("COULDN'T COMPLETE RPC CALL \n\n"+ Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         } finally {
             if (out != null) {

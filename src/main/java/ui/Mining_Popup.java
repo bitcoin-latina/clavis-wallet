@@ -3,7 +3,7 @@ package ui;
 import build_structure.Commands;
 import javafx.stage.Stage;
 
-public class Mining {
+public class Mining_Popup {
     static int mining_instance =0;
     public void start(Stage stage) throws Exception {
         if(mining_instance==0) {

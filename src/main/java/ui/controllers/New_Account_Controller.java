@@ -10,6 +10,8 @@ import ui.Global;
 import ui.Init;
 import web3j.Personal;
 
+import java.util.logging.Logger;
+
 public class New_Account_Controller{
     @FXML
     private PasswordField password_input;
@@ -18,7 +20,11 @@ public class New_Account_Controller{
         return password_input.getText();
     }
 
+    private static final Logger LOGGER = Logger.getLogger(New_Account_Controller.class.getName());
+
     public void button_press(ActionEvent e){
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("New Account Popup -> Button Pressed");
         //Initialize web3j functionality
         Admin geth = Global.getGeth();
         //Personal
@@ -28,7 +34,7 @@ public class New_Account_Controller{
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
-        System.out.println("Account Sucessfully Created");
+        LOGGER.info("Account Sucessfully Created");
         Init.start();
     }
 }

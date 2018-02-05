@@ -1,9 +1,11 @@
 package build_structure;
 
 import ui.Global;
+import ui.Init;
 import utils.Utils;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 /**
  * Structure check:
@@ -11,33 +13,43 @@ import java.io.File;
  * 2) Geth within BCL
  * 3) BCL_Node Directory within BCL
  * 4) genesis.json
+ * NOTE: State of 0 is uninitialized
  */
 
 public class Structure_Check {
+    /**
+     * Checks The File Structure
+     */
+    private static final Logger LOGGER = Logger.getLogger(Structure_Check.class.getName());
 
     public static void check_Structure() {
+        LOGGER.addHandler(Global.getLog_fh());
+
         //Check for BCL Folder
         if (!BCL_Directory_Check()) {
+            LOGGER.warning("No Directory Found @ " + Global.getPath() + File.separator + "BCL_CL");
             Global.setState(0);
             new Build().BCLFolder();
         }
 
         //Set Path To BCL_CL Folder
-
         Global.setPath(Global.getPath() + File.separator + "BCL_CL");
 
-        //Check for Files Inside of BCL_CL Folder 1 by 1
+        //Check for Files Inside of BCL_CL Folder
         if (!gethCheck() || !genesisCheck() || !ethminerCheck() ||
                 !commandCheck() || !staticNodeCheck()) {
+            LOGGER.warning("Certain Files Were Not Found in BCL_CL Dir");
             Global.setState(0);
+            LOGGER.config("Building Binaries");
             new Build().binaries();
+            LOGGER.config("Building Command Files");
             new Build().commands();
             Permission_Commands.permission();
         }
 
         if (Global.getState() == 0) {
             //Uninitialized
-            System.out.println("Start Command Issued");
+            LOGGER.config("Geth Start Command Issued");
             new Commands().start();
         } else {
             //Initialized
@@ -46,14 +58,12 @@ public class Structure_Check {
 
     }
 
-    private static boolean BCL_Directory_Check() {
-        //Checks for BCL Dir
+    private static boolean BCL_Directory_Check() {//Checks for BCL Dir
         File f = new File(Global.getPath() + File.separator + "BCL_CL");
         return f.exists() && f.isDirectory();
     }
 
-    private static boolean commandCheck() {
-        //Checks for Command Files
+    private static boolean commandCheck() {//Checks for Command Files
         if (Global.getOS().contains("mac")) {
             return (!Utils.Is_Empty_File(File.separator + "ethminer.command") &&
                     !Utils.Is_Empty_File(File.separator + "geth.command") &&
@@ -66,8 +76,7 @@ public class Structure_Check {
         return false;
     }
 
-    private static boolean gethCheck() {
-        //Checks for Geth
+    private static boolean gethCheck() {//Checks for Geth Binary
         File f;
         if (Global.getOS().contains("win")) {
             f = new File(Global.getPath() + File.separator + "geth.exe");
@@ -77,14 +86,12 @@ public class Structure_Check {
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean genesisCheck() {
-        //Checks for Genesis File
+    private static boolean genesisCheck() {//Checks for Genesis File
         File f = new File(Global.getPath() + File.separator + "genesis.json");
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean ethminerCheck() {
-        //Checks for Ethminer File
+    private static boolean ethminerCheck() {//Checks for Ethminer File
         File f;
         if (Global.getOS().contains("win")) {
             f = new File(Global.getPath() + File.separator + "ethminer.exe");
@@ -94,10 +101,10 @@ public class Structure_Check {
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean staticNodeCheck() {
-        //Checks for Static Node File
-        File f = new File(Global.getPath() + File.separator + "BCL_Node" + File.separator +
-                "geth" + File.separator + "static-nodes.json");
+    private static boolean staticNodeCheck() {//Checks for Static Node File
+        File f = new File(Global.getPath() + File.separator +
+                "BCL_Node" + File.separator + "geth" + File.separator +
+                "static-nodes.json");
         return f.exists();
     }
 }

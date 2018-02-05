@@ -3,7 +3,10 @@ package ui.controllers;
 import javafx.scene.control.*;
 import ui.Global;
 import web3j.Gas;
+import web3j.Personal;
 import web3j.Tx;
+
+import java.util.logging.Logger;
 
 public class Send_Controller extends Dashboard_Controller {
     public Button send_BCL_button;
@@ -14,13 +17,16 @@ public class Send_Controller extends Dashboard_Controller {
     public ComboBox address_dropdown;
     public static int count =0;
     public PasswordField password_field;
+    private static final Logger LOGGER = Logger.getLogger(Send_Controller.class.getName());
 
     public void initialize() {
+        LOGGER.addHandler(Global.getLog_fh());
         global_init();
         if(count==0)
             initialize_once();
     }
-    public void initialize_once(){
+
+    private void initialize_once(){
         setPaneHoverEffects();
         setHoverEffects();
         setOnClick();
@@ -41,7 +47,7 @@ public class Send_Controller extends Dashboard_Controller {
         clavis_about.setOnMouseExited(event -> remove_hover_side(clavis_about));
     }
 
-    public void setGas_limit() {
+    private void setGas_limit() {
         gas_limit.setText(String.valueOf(Gas.getGasLimit(Global.getWeb3j())) + " Gas");
     }
 
@@ -78,7 +84,6 @@ public class Send_Controller extends Dashboard_Controller {
                     Double.parseDouble(getAmount()), String.valueOf(getGasPrice()), getPass_field(), Global.getWeb3j());
             transaction.Send();
             clearValues();
-//            Progress.kill();
         }
     }
 

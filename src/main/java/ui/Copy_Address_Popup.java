@@ -6,10 +6,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Copy_Popup {
+public class Copy_Address_Popup {
 
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(Copy_Popup.class.
+        FXMLLoader loader = new FXMLLoader(Copy_Address_Popup.class.
                 getClassLoader().getResource("copy.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

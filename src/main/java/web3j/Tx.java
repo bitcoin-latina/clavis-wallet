@@ -1,13 +1,7 @@
 package web3j;
 
 import javafx.scene.control.Alert;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.methods.request.Transaction;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tx.Transfer;
-import org.web3j.utils.Convert;
 import rpc.Params;
 import rpc.RPC;
 import ui.Global;
@@ -16,6 +10,7 @@ import web3j.accounts.Accounts;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.logging.Logger;
 
 /**
  * Handles web3 transaction calls
@@ -23,74 +18,48 @@ import java.math.BigInteger;
  */
 public class Tx {
     private String from_Address, to_Address, password;
-    private Web3j web3;
     private double amount;
     private String gasPrice;
-
+    private static final Logger LOGGER = Logger.getLogger(Tx.class.getName());
     public Tx(String from_Address, String to_Address, double amount, String gasPrice, String password, Web3j web3) {
         this.from_Address = from_Address;
         this.to_Address = to_Address;
         this.amount = amount;
         this.password = password;
-        this.web3 = web3;
-        this.gasPrice=gasPrice;
+        this.gasPrice = gasPrice;
+        LOGGER.addHandler(Global.getLog_fh());
     }
 
     /**
      * Sending transaction from one party to the next
      */
-    public void Send(){
-        System.out.println("Attempting to Unlock Account");
-        boolean b = Accounts.unlock_account_time(Global.getGeth(),from_Address, password, 60000);
-        if(b) {
-
-            BigInteger conversion = BigInteger.valueOf(1000000000000000000l);
-            BigDecimal wei = BigDecimal.valueOf(amount*(conversion).doubleValue());
+    public void Send() {
+        LOGGER.info("Unlocking Account...");
+        boolean b = Accounts.unlock_account_time(Global.getGeth(), from_Address, password, 60000);
+        if (b) {
+            LOGGER.info(" -> Success");
+            BigInteger conversion = BigInteger.valueOf(1000000000000000000L);
+            BigDecimal wei = BigDecimal.valueOf(amount * (conversion).doubleValue());
             long gasP = (long) Double.parseDouble(gasPrice);
-            System.out.println(gasP);
-            System.out.println(wei.toString());
+            LOGGER.info("Gas Price ->" + gasP);
+            LOGGER.info("Amount ->" + wei.toString());
             //All values must be in hex
             Params params = new Params();
             params.addParam("from", from_Address);
             params.addParam("to", to_Address);
             params.addParam("gasPrice", Utils.toHex(BigInteger.valueOf(gasP)));
             params.addParam("value", Utils.toHex(wei.toBigInteger()));
-
             RPC.rpc_call("eth_sendTransaction", params, true);
-        }
-        else {
-            createAlert("Incorrect Password");
-        }
-    }
-    public void oldSend(){
-        Credentials credentials;
-        try {
-//            getAnEstimate();
-            credentials = WalletUtils.loadCredentials(password, Wallet.getWalletFile(from_Address));
-            TransactionReceipt transactionReceipt = Transfer.sendFunds(
-                    web3, credentials, to_Address,
-                    BigDecimal.valueOf(amount), Convert.Unit.ETHER).send();
-            //Get The Receipt in the background
-//            Thread background = new Thread() {
-//                public void run() {
-                    createAlert("The Transaction went through... Here is the hash: \n"
-                            + transactionReceipt.getTransactionHash());
-//                }
-//            };
-        } catch (Exception e) {
-            e.printStackTrace();
-//            createAlert("The Transaction did not go through: \n"+ e.getStackTrace().toString());
+        } else {
+            createAlert();
+            LOGGER.warning("UNABLE TO UNLOCK THE ACCOUNT (Incorrect Pass)");
         }
     }
-    private void getAnEstimate(){
-        Transaction transaction = Transaction.createContractTransaction(from_Address, BigInteger.valueOf(0),
-                Gas.getGasPrice(web3), Gas.getGasLimit(web3), BigDecimal.valueOf(amount).toBigInteger(),"");
-        System.out.println("Estimated Gas: " + Gas.estimateGas(web3, transaction));
-    }
-    private void createAlert(String message){
+
+    private void createAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
-        alert.setHeaderText(message);
+        alert.setHeaderText("Incorrect Password");
         alert.show();
     }
 }

@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Init extends Application {
-    private static final Logger LOGGER = Logger.getLogger( Init.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger(Init.class.getName());
 
     public static void main(String[] args) {
         launch(args);
@@ -31,34 +31,20 @@ public class Init extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        stage.setOnCloseRequest(event -> {//If closing wallet...
-            event.consume();
-            LOGGER.log(Level.FINE, "Closing Main Windows Initiated...");
-            System.out.println("Closing Gracefully...");
-            Commands.kill_geth_ethminer();
-            List<Thread> appThreads = Global.getAppThreads();
-            List<Process> appProcesses = Global.getAppProcesses();
-            for (Thread t : appThreads
-                    ) {
-                t.interrupt();
-                LOGGER.log(Level.FINE, "Killing Threads...");
-                System.out.println("Killing Thread");
-            }
-            for (Process p : appProcesses
-                    ) {
-                if (p != null)
-                    p.destroyForcibly();
-                LOGGER.log(Level.FINE, "Killing Processes...");
-                System.out.println("Killing Process");
-            }
-            Runtime.getRuntime();
-            Platform.exit();
-            System.exit(0);
-        });
-        LOGGER.log(Level.FINE, "Creating new splash screen window");
+        //Setup Logging File
+        Global.setup_logger_fh();
+        LOGGER.addHandler(Global.getLog_fh());
+        //Setup Stage Closing
+        setup_closing_policy(stage);
+        LOGGER.info("*******************************");
+        LOGGER.info("*******************************");
+        LOGGER.info("*******************************");
+        LOGGER.info("*******************************");
+        LOGGER.info("It's A New Instance Of CLAVIS");
+        LOGGER.info("Setting up splash screen");
         //Create Bootup Window
         Global.setStage(stage);
+        //Initialize Loader
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("init.fxml"));
         Parent root = loader.load();
         Global.setLoader(loader);
@@ -67,7 +53,7 @@ public class Init extends Application {
         stage.setAlwaysOnTop(false);
         stage.getIcons().add(new Image(Init.class.getResourceAsStream("/Images/icon.png")));
         stage.show();
-        //Allows Splash Screen To Show Before Loading Geth
+        //TODO can remove if threaded
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> initialize());
         //Start the pause
@@ -75,35 +61,64 @@ public class Init extends Application {
     }
 
     public static void initialize() {
+        LOGGER.info("Initializing the UI");
+        //Save UI Thread To Global
+        Global.setUiThread(Thread.currentThread());
         //Get OS
         Utils.set_os(System.getProperty("os.name").toLowerCase());
         //Check folder Structure
         Structure_Check.check_Structure();
         //Get Web3j
-        System.out.println("Structure check complete");
         //Initialize web3j functionality
         new Setup().setupWeb3();
         //check for accounts if none create a popup
-        if(!Accounts.accounts_check()){
-            System.out.println("No accounts found");
+        if (!Accounts.accounts_check()) {
+            LOGGER.warning("NO ACCOUNTS FOUND");
             try {
-                new New_Account().start(new Stage());
+                new New_Account_Popup().start(new Stage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             start();
         }
     }
-    public static void start(){
-        //Update Global Class Information
-        Global.update_information();
+
+    private static void setup_closing_policy(Stage stage){
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+            LOGGER.info("Closing Gracefully...");
+            //Kill All Geth
+            Commands.kill_geth_ethminer();
+            //Kill All Running Threads
+            for (Thread t : Global.getAppThreads()) {
+                t.interrupt();
+            }
+            LOGGER.info("Closed App Threads...");
+            //Kill All Running Processes
+            for (Process p : Global.getAppProcesses()
+                    ) {
+                if (p != null)
+                    p.destroyForcibly();
+            }
+            LOGGER.info("Closed App Processes...");
+            //Exit The Platform
+            LOGGER.info("Done");
+            Platform.exit();
+            //Exit All
+            System.exit(0);
+        });
+    }
+
+    public static void start() {
         //Subscribe Once
         Subscribe.subscibeToBlocks();
+        //Update Global Class Information
+        Global.update_information();
         //Fire Up Dashboard
         toAnotherPage("dashboard.fxml");
     }
+
     public static void toAnotherPage(String page_name) {
         try {
             FXMLLoader loader = new FXMLLoader(Init.class.getClassLoader().getResource(page_name));

@@ -1,13 +1,20 @@
 package build_structure;
 
 import ui.Global;
+import ui.Init;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class Commands {
+    /**
+     * Used To Execute Sys Commands
+     */
+    private static final Logger LOGGER = Logger.getLogger(Commands.class.getName());
     //Mac Commands
     final static private String macStartCommand = Global.getPath() + File.separator + "start.command";
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
@@ -21,6 +28,8 @@ public class Commands {
     Process p = null;
 
     public void start() {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Running Start Command File");
         Runnable r = () -> {
             try {
                 ProcessBuilder pb = null;
@@ -33,14 +42,23 @@ public class Commands {
                 startProcess(pb);
             } catch (IOException e) {
                 e.printStackTrace();
+                LOGGER.warning("UNABLE TO RUN START COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
         };
-
-        new Thread(r).start();
+        LOGGER.info("Reordering Thread Priorities For Geth");
+        reorder_threads(r);
     }
-
+    private static void reorder_threads(Runnable r){
+        //Set Ui Thread Lower Priority Until Geth is Synced
+        Global.getUiThread().setPriority(Thread.MIN_PRIORITY);
+        Global.setGethThread(new Thread(r));
+        Global.getGethThread().setPriority(Thread.MAX_PRIORITY);
+        Global.getGethThread().start();
+    }
     public void geth() {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Running Geth Command File");
         Runnable r = () -> {
             try {
                 ProcessBuilder pb = null;
@@ -53,14 +71,17 @@ public class Commands {
                 startProcess(pb);
             } catch (IOException e) {
                 e.printStackTrace();
+                LOGGER.warning("UNABLE TO RUN GETH COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
         };
-
-        new Thread(r).start();
+        //Set Ui Thread Lower Priority Until Geth is Synced
+        reorder_threads(r);
     }
 
     public void mine() {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Running Mining_Popup Command File");
         try {
             switch (Global.getOS()) {
                 case "mac":
@@ -73,11 +94,14 @@ public class Commands {
             Global.getAppProcesses().add(p);
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.warning("UNABLE TO RUN MINING COMMAND " + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         }
     }
 
     public static void kill_geth_ethminer() {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Running Mining_Popup Command File");
         try {
             if (Global.getOS().contains("mac")) {
                 Process p = Runtime.getRuntime().exec("killall geth");
@@ -100,31 +124,29 @@ public class Commands {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.warning("Unable to Kill Ethminer/Geth" + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    void startProcess(ProcessBuilder pb) throws IOException {
+    private void startProcess(ProcessBuilder pb) throws IOException {
+        LOGGER.addHandler(Global.getLog_fh());
+        LOGGER.info("Process Builder Started");
         pb.redirectErrorStream(true);
-
         /* Start the process */
         Process proc = pb.start();
         Global.getAppProcesses().add(proc);
-        System.out.println("Process started !");
-
         /* Read the process's output */
         String line;
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 proc.getInputStream()));
         while ((line = in.readLine()) != null) {
-            System.out.println(line);
+            LOGGER.info("GETH: " + line);
         }
-
         /* Clean-up */
         proc.destroy();
-        System.out.println("Process ended !");
         Global.getAppProcesses().add(p);
     }
 }
