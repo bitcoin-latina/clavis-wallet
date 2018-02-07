@@ -68,47 +68,30 @@ public class Utils {
         fileChooser.setTitle("Export Keys");
         File dest = fileChooser.showSaveDialog(window);
         if (dest != null) {
-            copyFolder(src, dest);
+            copyFolder(src.toPath(), dest.toPath());
             LOGGER.warning("EXPORT KEYS FROM " + filepath + "\nTO " + dest.toString());
         }
     }
 
-    static private void copyFolder(File src, File dest) {
-        // checks
-        if(src==null || dest==null)
-            return;
-        if(!src.isDirectory())
-            return;
-        if(dest.exists()){
-            if(!dest.isDirectory()){
-                //System.out.println("destination not a folder " + dest);
-                return;
-            }
-        } else {
-            dest.mkdir();
-        }
-
-        if(src.listFiles()==null || src.listFiles().length==0)
-            return;
-
-        for(File file: src.listFiles()){
-            File fileDest = new File(dest, file.getName());
-            //System.out.println(fileDest.getAbsolutePath());
-            if(file.isDirectory()){
-                copyFolder(file, fileDest);
-            }else{
-                if(fileDest.exists())
-                    continue;
-
+    public static void copyFolder(Path src, Path dest) {
+        try {
+            Files.walk(src).forEach(s -> {
                 try {
-                    Files.copy(file.toPath(), fileDest.toPath());
-                } catch (IOException e) {
-                    //e.printStackTrace();
+                    Path d = dest.resolve(src.relativize(s));
+                    if (Files.isDirectory(s)) {
+                        if (!Files.exists(d))
+                            Files.createDirectory(d);
+                        return;
+                    }
+                    Files.copy(s, d);// use flag to override existing
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
-
 //    public static void export_resource(String from, String to) {
 //        LOGGER.addHandler(Global.getLog_fh());
 //        URL from_u = Utils.class.getResource(File.separator+from);
