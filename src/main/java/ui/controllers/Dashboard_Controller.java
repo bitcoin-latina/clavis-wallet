@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ui.*;
+import utils.Utils;
 import web3j.accounts.Account;
 
 import java.awt.*;

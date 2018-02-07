@@ -1,5 +1,7 @@
 package utils;
 
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import rpc.RPC;
 import ui.Global;
@@ -10,10 +12,12 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class Utils {
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
@@ -41,7 +45,8 @@ public class Utils {
             return true;
         }
     }
-    public static void export_resource(String from, String to){
+
+    public static void export_resource(String from, String to) {
         // this is the path within the jar file
         InputStream input = Utils.class.getResourceAsStream("/resources/" + from);
         if (input == null) {
@@ -54,6 +59,56 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
+    public static void export_keys() {
+        String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "Keystore";
+        Stage window = new Stage();
+        File src = new File(filepath);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Keys");
+        File dest = fileChooser.showSaveDialog(window);
+        if (dest != null) {
+            copyFolder(src, dest);
+            LOGGER.warning("EXPORT KEYS FROM " + filepath + "\nTO " + dest.toString());
+        }
+    }
+
+    static private void copyFolder(File src, File dest) {
+        // checks
+        if(src==null || dest==null)
+            return;
+        if(!src.isDirectory())
+            return;
+        if(dest.exists()){
+            if(!dest.isDirectory()){
+                //System.out.println("destination not a folder " + dest);
+                return;
+            }
+        } else {
+            dest.mkdir();
+        }
+
+        if(src.listFiles()==null || src.listFiles().length==0)
+            return;
+
+        for(File file: src.listFiles()){
+            File fileDest = new File(dest, file.getName());
+            //System.out.println(fileDest.getAbsolutePath());
+            if(file.isDirectory()){
+                copyFolder(file, fileDest);
+            }else{
+                if(fileDest.exists())
+                    continue;
+
+                try {
+                    Files.copy(file.toPath(), fileDest.toPath());
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                }
+            }
+        }
+    }
+
 //    public static void export_resource(String from, String to) {
 //        LOGGER.addHandler(Global.getLog_fh());
 //        URL from_u = Utils.class.getResource(File.separator+from);

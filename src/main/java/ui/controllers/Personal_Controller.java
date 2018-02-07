@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ui.Global;
+import utils.Utils;
 import web3j.Personal;
 import web3j.accounts.Account;
 import web3j.accounts.Accounts;
@@ -28,6 +29,7 @@ public class Personal_Controller extends Dashboard_Controller {
     public static int count = 0;
     public Button copy_address_button;
     private static final Logger LOGGER = Logger.getLogger(Personal.class.getName());
+    public Button export_keys_button;
 
     public void initialize(){
         LOGGER.addHandler(Global.getLog_fh());
@@ -137,5 +139,8 @@ public class Personal_Controller extends Dashboard_Controller {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);
         }
+    }
+    public void export_keys(ActionEvent actionEvent) {
+        Utils.export_keys();
     }
 }
