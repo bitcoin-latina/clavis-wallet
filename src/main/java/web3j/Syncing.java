@@ -10,6 +10,7 @@ import ui.Global;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Syncing {
@@ -54,7 +55,7 @@ public class Syncing {
             EthSyncing ethSyncing = Global.getWeb3j().ethSyncing().send();
             return ethSyncing.isSyncing();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
         return false;
     }

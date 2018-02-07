@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Build {
     /**
      * This Class Is Used To Insert Config Files And Binaries
      */
-    private static final Logger LOGGER = Logger.getLogger(Build.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Init.class.getName());
     private String mainFolder = Global.getPath() + File.separator + "BCL_CL";
     //>> External Paths
     final private String winEthminerBinary = Global.getPath() + File.separator + "ethminer.exe";
@@ -40,13 +39,18 @@ public class Build {
 
     public void BCLFolder() {
         LOGGER.addHandler(Global.getLog_fh());
-        LOGGER.config("Adding BCL Folder");
+        LOGGER.info("Adding BCL Folder");
         try {
             Path path = Paths.get(mainFolder);
             Files.createDirectories(path);
+            //Create BCL_Node Folder
+            Path path2 = Paths.get(mainFolder+File.separator+"BCL_Node");
+            Files.createDirectories(path2);
+            //Create Geth Folder For Static Nodes
+            Path path3 = Paths.get(mainFolder+File.separator+"BCL_Node"+File.separator+"geth");
+            Files.createDirectories(path3);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.warning("COULDN'T CREATE BCL_FOLDER \n\n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.warning("COULDN'T CREATE BCL_FOLDER \n\n" + e.getStackTrace());
             LOGGER.warning("Attempted creating BCL Folder at " + mainFolder);
             //Create Alert ->
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -59,30 +63,31 @@ public class Build {
 
     public void binaries() {
         LOGGER.addHandler(Global.getLog_fh());
-        LOGGER.config("Adding Binaries");
+        LOGGER.info("Adding Binaries");
+        LOGGER.info("PATH IS " + Global.getPath());
         if (Global.getOS().contains("win")) {
-            String winGethBinaryRes = "/binaries/windows/geth.exe";
+            String winGethBinaryRes = "binaries"+File.separator+"windows"+File.separator+"geth.exe";
             Utils.export_resource(winGethBinaryRes, winGethBinary);
-            LOGGER.config("Windows Geth Added");
-            String winGenesisRes = "/json/genesis.json";
+            LOGGER.info("Windows Geth Added");
+            String winGenesisRes = "json"+File.separator+"genesis.json";
             Utils.export_resource(winGenesisRes, winGenesis);
-            LOGGER.config("Windows Genesis File Added");
-            String winEthminerBinaryRes = "/binaries/windows/ethminer.exe";
+            LOGGER.info("Windows Genesis File Added");
+            String winEthminerBinaryRes = "binaries"+File.separator+"windows"+File.separator+"ethminer.exe";
             Utils.export_resource(winEthminerBinaryRes, winEthminerBinary);
-            LOGGER.config("Windows Ethminer Added");
-            String winStaticNodeRes = "/json/static-nodes.json";
+            LOGGER.info("Windows Ethminer Added");
+            String winStaticNodeRes = "json"+File.separator+"static-nodes.json";
             Utils.export_resource(winStaticNodeRes, winStaticNode);
         } else if (Global.getOS().contains("mac")) {
-            String macGethBinaryRes = "/binaries/mac/geth";
+            String macGethBinaryRes = "binaries"+File.separator+"mac"+File.separator+"geth";
             Utils.export_resource(macGethBinaryRes, macGethBinary);
-            LOGGER.config("Mac Geth Added");
-            String macGenesisRes = "/json/genesis.json";
+            LOGGER.info("Mac Geth Added");
+            String macGenesisRes = "json"+File.separator+"genesis.json";
             Utils.export_resource(macGenesisRes, macGenesis);
-            LOGGER.config("Mac Genesis File Added");
-            String macEthminerBinaryRes = "/binaries/mac/ethminer";
+            LOGGER.info("Mac Genesis File Added");
+            String macEthminerBinaryRes = "binaries"+File.separator+"mac"+File.separator+"ethminer";
             Utils.export_resource(macEthminerBinaryRes, macEthminerBinary);
-            LOGGER.config("Mac Ethminer Added");
-            String macStaticNodeRes = "/json/static-nodes.json";
+            LOGGER.info("Mac Ethminer Added");
+            String macStaticNodeRes = "json"+File.separator+"static-nodes.json";
             Utils.export_resource(macStaticNodeRes, macStaticNode);
         }
         //Linux Support Coming...
@@ -90,18 +95,18 @@ public class Build {
 
     public void commands() {
         if (Global.getOS().contains("win")) {
-            String winStartCommandRes = "/commands/windows/start.cmd";
+            String winStartCommandRes = "commands"+File.separator+"windows"+File.separator+"start.cmd";
             Utils.export_resource(winStartCommandRes, winStartCommand);
-            String winGethCommandRes = "/commands/windows/geth.cmd";
+            String winGethCommandRes = "commands"+File.separator+"windows"+File.separator+"geth.cmd";
             Utils.export_resource(winGethCommandRes, winGethCommand);
-            String winEthMinerCommandRes = "/commands/windows/ethminer.cmd";
+            String winEthMinerCommandRes = "commands"+File.separator+"windows"+File.separator+"ethminer.cmd";
             Utils.export_resource(winEthMinerCommandRes, winEthMinerCommand);
         } else if (Global.getOS().contains("mac")) {
-            String macStartCommandRes = "/commands/mac/start.command";
+            String macStartCommandRes = "commands"+File.separator+"mac"+File.separator+"start.command";
             Utils.export_resource(macStartCommandRes, macStartCommand);
-            String macGethCommandRes = "/commands/mac/geth.command";
+            String macGethCommandRes = "commands"+File.separator+"mac"+File.separator+"geth.command";
             Utils.export_resource(macGethCommandRes, macGethCommand);
-            String macEthMinerCommandRes = "/commands/mac/ethminer.command";
+            String macEthMinerCommandRes = "commands"+File.separator+"mac"+File.separator+"ethminer.command";
             Utils.export_resource(macEthMinerCommandRes, macEthMinerCommand);
         }
         //Linux Support Coming...

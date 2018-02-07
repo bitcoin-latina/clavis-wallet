@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -86,7 +87,7 @@ public class Personal_Controller extends Dashboard_Controller {
                 set_dropdown(new Accounts().getAccounts());
             } catch (IOException e) {
                 LOGGER.warning("COULD NOT SETUP DROPDOWWN");
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
             }
         }
     }

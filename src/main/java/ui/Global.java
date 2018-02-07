@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.FileHandler;
@@ -179,7 +180,7 @@ public class Global {
             }
             Global.setMain_account(new Accounts().getAccounts().get(0));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -193,7 +194,7 @@ public class Global {
             SimpleFormatter formatter = new SimpleFormatter();
             log_fh.setFormatter(formatter);
         } catch (SecurityException | IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
     private static void syncingCheck(){

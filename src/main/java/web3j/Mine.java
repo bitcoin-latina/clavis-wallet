@@ -4,6 +4,7 @@ import ui.Global;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Mine {
@@ -32,10 +33,10 @@ public class Mine {
                     p.wait();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
             }
         });
         background.start();
@@ -44,7 +45,7 @@ public class Mine {
             Thread.sleep(10000);
             Global.update_information();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -66,10 +67,10 @@ public class Mine {
                     p.wait();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
             }
         });
         background.start();
@@ -77,7 +78,7 @@ public class Mine {
             Thread.sleep(10000);
             Global.update_information();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 }

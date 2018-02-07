@@ -41,7 +41,6 @@ public class Commands {
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                e.printStackTrace();
                 LOGGER.warning("UNABLE TO RUN START COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
@@ -70,7 +69,6 @@ public class Commands {
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                e.printStackTrace();
                 LOGGER.warning("UNABLE TO RUN GETH COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
@@ -93,7 +91,6 @@ public class Commands {
             }
             Global.getAppProcesses().add(p);
         } catch (IOException e) {
-            e.printStackTrace();
             LOGGER.warning("UNABLE TO RUN MINING COMMAND " + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         }
@@ -123,11 +120,10 @@ public class Commands {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
             LOGGER.warning("Unable to Kill Ethminer/Geth" + Arrays.toString(e.getStackTrace()));
             System.exit(1);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 

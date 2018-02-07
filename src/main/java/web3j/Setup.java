@@ -8,6 +8,7 @@ import ui.Global;
 import utils.Utils;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Setup {
@@ -40,7 +41,7 @@ public class Setup {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.warning(Arrays.toString(e.getStackTrace()));
                 }
             }
             try {

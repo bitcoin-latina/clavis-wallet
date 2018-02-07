@@ -27,7 +27,6 @@ public class Personal {
         try {
             return geth.personalNewAccount(password).send().getAccountId();
         } catch (IOException e) {
-            e.printStackTrace();
             LOGGER.warning("UNABLE TO CREATE ACCOUNT\n\n"+ Arrays.toString(e.getStackTrace()));
         }
         return null;

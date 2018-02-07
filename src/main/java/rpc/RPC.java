@@ -89,7 +89,7 @@ public class RPC {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.warning(Arrays.toString(e.getStackTrace()));
                 }
             }
         }

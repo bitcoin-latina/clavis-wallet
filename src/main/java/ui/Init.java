@@ -1,6 +1,7 @@
 package ui;
 
 import build_structure.Commands;
+import build_structure.Permission_Commands;
 import build_structure.Structure_Check;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -17,7 +18,9 @@ import web3j.Setup;
 import web3j.Subscribe;
 import web3j.accounts.Accounts;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +70,15 @@ public class Init extends Application {
         //Get OS
         Utils.set_os(System.getProperty("os.name").toLowerCase());
         //Check folder Structure
-        Structure_Check.check_Structure();
+        //TODO IF ADDING WINDOWS INSTALLER CAN CHECK FOR OS
+        if(Global.getOS().contains("win")){
+            //Initialized
+            Global.setPath(Global.getPath() + File.separator + "BCL_CL");
+            Permission_Commands.permission();
+            new Commands().geth();
+        }else{
+            Structure_Check.check_Structure();
+        }
         //Get Web3j
         //Initialize web3j functionality
         new Setup().setupWeb3();
@@ -77,7 +88,7 @@ public class Init extends Application {
             try {
                 new New_Account_Popup().start(new Stage());
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.warning(Arrays.toString(e.getStackTrace()));
             }
         } else {
             start();
@@ -152,7 +163,7 @@ public class Init extends Application {
                     break;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 

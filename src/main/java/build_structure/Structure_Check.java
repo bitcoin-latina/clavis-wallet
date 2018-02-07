@@ -40,16 +40,15 @@ public class Structure_Check {
                 !commandCheck() || !staticNodeCheck()) {
             LOGGER.warning("Certain Files Were Not Found in BCL_CL Dir");
             Global.setState(0);
-            LOGGER.config("Building Binaries");
+            LOGGER.info("Building Binaries");
             new Build().binaries();
-            LOGGER.config("Building Command Files");
+            LOGGER.info("Building Command Files");
             new Build().commands();
             Permission_Commands.permission();
         }
-
         if (Global.getState() == 0) {
             //Uninitialized
-            LOGGER.config("Geth Start Command Issued");
+            LOGGER.info("Geth Start Command Issued");
             new Commands().start();
         } else {
             //Initialized

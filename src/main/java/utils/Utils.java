@@ -6,8 +6,11 @@ import ui.Global;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -38,18 +41,31 @@ public class Utils {
             return true;
         }
     }
-
-    public static void export_resource(String from, String to) {
-        LOGGER.addHandler(Global.getLog_fh());
-        URL from_u = Utils.class.getClass().getResource(from);
-        File to_u = new File(to);
+    public static void export_resource(String from, String to){
+        // this is the path within the jar file
+        InputStream input = Utils.class.getResourceAsStream("/resources/" + from);
+        if (input == null) {
+            // this is how we load file within editor (eg eclipse)
+            input = Utils.class.getClassLoader().getResourceAsStream(from);
+        }
         try {
-            FileUtils.copyURLToFile(from_u, to_u);
+            Files.copy(input, Paths.get(to));
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO EXPORT " + from_u + "\n\n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
     }
+//    public static void export_resource(String from, String to) {
+//        LOGGER.addHandler(Global.getLog_fh());
+//        URL from_u = Utils.class.getResource(File.separator+from);
+//        File to_u = new File(to);
+//        LOGGER.warning("\n\nFrom U "+ File.separator+from_u + "\n\n");
+//        try {
+//            FileUtils.copyURLToFile(from_u, to_u);
+//        } catch (IOException e) {
+//            LOGGER.warning("UNABLE TO EXPORT " + from_u + "\n\n" + Arrays.toString(e.getStackTrace()));
+//            e.printStackTrace();
+//        }
+//    }
 
     static BigInteger conversion = BigInteger.valueOf(1000000000000000000l);
 

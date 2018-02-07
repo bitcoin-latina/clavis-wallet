@@ -33,11 +33,11 @@ public class Permission_Commands {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
             LOGGER.warning("COULDN'T CHANGE THE BCL_CL Permissions\n\n"+ Arrays.toString(e.getStackTrace()));
             System.exit(1);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 }

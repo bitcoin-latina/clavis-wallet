@@ -59,7 +59,7 @@ public class Blocks {
             //Update Every 5 Seconds
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
         try {
             //Update Ui From Background Thread

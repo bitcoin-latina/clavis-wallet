@@ -149,7 +149,7 @@ public class Dashboard_Controller extends Controller {
                         } catch (Exception e) {
                             LOGGER.warning("UNABLE TO CREATE COPY POPUP\n\n" +
                                     Arrays.toString(e.getStackTrace()));
-                            e.printStackTrace();
+                            LOGGER.warning(Arrays.toString(e.getStackTrace()));
                         }
                     }
                 }
@@ -241,7 +241,7 @@ public class Dashboard_Controller extends Controller {
         try {
             new Mining_Popup().start(new Stage());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warning(Arrays.toString(e.getStackTrace()));
         }
     }
 
