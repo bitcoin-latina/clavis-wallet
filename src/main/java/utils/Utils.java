@@ -123,6 +123,16 @@ public class Utils {
         }
     }
 
+    //Check for file
+    public static boolean fileCheck(String filename){
+        //windows
+        if(Global.getOS().contains("win")){
+            return new File(Global.getPath(), filename+".exe").exists();
+        }
+        //mac
+        return new File(Global.getPath(), filename).exists();
+    }
+
     public static String toHex(BigInteger b) {
         return "0x" + b.toString(16);
     }

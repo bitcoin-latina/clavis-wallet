@@ -72,9 +72,9 @@ public class Build {
             String winGenesisRes = "json"+File.separator+"genesis.json";
             Utils.export_resource(winGenesisRes, winGenesis);
             LOGGER.info("Windows Genesis File Added");
-            String winEthminerBinaryRes = "binaries"+File.separator+"windows"+File.separator+"ethminer.exe";
-            Utils.export_resource(winEthminerBinaryRes, winEthminerBinary);
-            LOGGER.info("Windows Ethminer Added");
+//            String winEthminerBinaryRes = "binaries"+File.separator+"windows"+File.separator+"ethminer.exe";
+//            Utils.export_resource(winEthminerBinaryRes, winEthminerBinary);
+//            LOGGER.info("Windows Ethminer Added");
             String winStaticNodeRes = "json"+File.separator+"static-nodes.json";
             Utils.export_resource(winStaticNodeRes, winStaticNode);
         } else if (Global.getOS().contains("mac")) {
@@ -84,9 +84,9 @@ public class Build {
             String macGenesisRes = "json"+File.separator+"genesis.json";
             Utils.export_resource(macGenesisRes, macGenesis);
             LOGGER.info("Mac Genesis File Added");
-            String macEthminerBinaryRes = "binaries"+File.separator+"mac"+File.separator+"ethminer";
-            Utils.export_resource(macEthminerBinaryRes, macEthminerBinary);
-            LOGGER.info("Mac Ethminer Added");
+//            String macEthminerBinaryRes = "binaries"+File.separator+"mac"+File.separator+"ethminer";
+//            Utils.export_resource(macEthminerBinaryRes, macEthminerBinary);
+//            LOGGER.info("Mac Ethminer Added");
             String macStaticNodeRes = "json"+File.separator+"static-nodes.json";
             Utils.export_resource(macStaticNodeRes, macStaticNode);
         }

@@ -24,21 +24,13 @@
                   <Image url="@Images/icons8-mine-cart-filled-100.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutY="50.0" prefHeight="40.0" prefWidth="400.0" text="BCL Mining Account:&#10;">
+            <Label alignment="CENTER" layoutY="60.0" prefHeight="81.0" prefWidth="400.0" text="This Is An Advanced Feature Which Requires An External Client &#10;NOTE: This Feature Is Experimental And Not Recommended To All&#10;&#10;Would You Like To Proceed?" textAlignment="CENTER">
                <font>
-                  <Font size="18.0" />
+                  <Font size="12.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutY="125.0" opacity="0.44" prefWidth="400.0" text="NOTE: This may Take A Second - Be Patient :)&#10;All instances of geth will be killed temporarily" textAlignment="CENTER">
-               <font>
-                  <Font size="11.0" />
-               </font></Label>
-            <Button fx:id="mining_button" alignment="CENTER" layoutX="100.0" layoutY="165.0" mnemonicParsing="false" onAction="#letsMine" prefWidth="200.0" style="-fx-background-color: #353535;" text="Let's Mine!" textFill="WHITE" />
-            <Label fx:id="mining_address" alignment="CENTER" layoutY="90.0" prefHeight="30.0" prefWidth="400.0" text="{ 0x6a164122d5cf7c840D26e829b46dCc4ED6C0ae48 }" textFill="#6b8f71">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
+            <Button fx:id="mining_button" alignment="CENTER" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" onAction="#letsMine" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #353535;" text="Let's Mine!" textFill="WHITE" />
+            <Button fx:id="cancel_button" alignment="CENTER" layoutX="210.0" layoutY="159.0" mnemonicParsing="false" onAction="#cancel" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #353535;" text="No Thanks!" textFill="WHITE" />
          </children>
       </Pane>
    </children>

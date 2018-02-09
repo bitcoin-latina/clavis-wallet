@@ -22,8 +22,8 @@ public class Commands {
     //Win Commands
     final static private String winStartCommand = "\""+Global.getPath() + File.separator + "start.cmd"+"\"";
     final static private String winGethCommand = "\""+Global.getPath() + File.separator + "geth.cmd"+"\"";
-    final static private String winMineCommand = "cmd.exe /k start " + "\""+Global.getPath() +
-            File.separator + "ethminer.cmd"+"\"";
+    final static private String winMineCommand = "cmd.exe /k start " +Global.getPath() +
+            File.separator + "ethminer.cmd";
     final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
     final static private String winKillAllEthminer = "taskkill /IM ethminer.exe /F";
     Process p = null;

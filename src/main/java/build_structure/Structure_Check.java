@@ -36,8 +36,7 @@ public class Structure_Check {
         Global.setPath(Global.getPath() + File.separator + "BCL_CL");
 
         //Check for Files Inside of BCL_CL Folder
-        if (!gethCheck() || !genesisCheck() || !ethminerCheck() ||
-                !commandCheck() || !staticNodeCheck()) {
+        if (!gethCheck() || !genesisCheck() || !commandCheck() || !staticNodeCheck()) {
             LOGGER.warning("Certain Files Were Not Found in BCL_CL Dir");
             Global.setState(0);
             LOGGER.info("Building Binaries");
@@ -90,15 +89,6 @@ public class Structure_Check {
         return f.exists() && !f.isDirectory();
     }
 
-    private static boolean ethminerCheck() {//Checks for Ethminer File
-        File f;
-        if (Global.getOS().contains("win")) {
-            f = new File(Global.getPath() + File.separator + "ethminer.exe");
-        } else {
-            f = new File(Global.getPath() + File.separator + "ethminer");
-        }
-        return f.exists() && !f.isDirectory();
-    }
 
     private static boolean staticNodeCheck() {//Checks for Static Node File
         File f = new File(Global.getPath() + File.separator +
