@@ -1,5 +1,6 @@
 package ui;
 
+import build_structure.Commands;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +27,21 @@ public class New_Account_Popup {
         stage.setOnCloseRequest(event -> {//If closing popup
             event.consume();
             if(!Accounts.accounts_check()){
+                event.consume();
+                //Kill All Geth
+                Commands.kill_geth_ethminer();
+                //Kill All Running Threads
+                for (Thread t : Global.getAppThreads()) {
+                    t.interrupt();
+                }
+                //Kill All Running Processes
+                for (Process p : Global.getAppProcesses()
+                        ) {
+                    if (p != null)
+                        p.destroyForcibly();
+                }
                 Platform.exit();
+                //Exit All
                 System.exit(0);
             }
             Init.start();

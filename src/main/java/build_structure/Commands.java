@@ -20,9 +20,10 @@ public class Commands {
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
     final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
-    final static private String winStartCommand = Global.getPath() + File.separator + "start.cmd";
-    final static private String winGethCommand = Global.getPath() + File.separator + "geth.cmd";
-    final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() + File.separator + "ethminer.cmd";
+    final static private String winStartCommand = "\""+Global.getPath() + File.separator + "start.cmd"+"\"";
+    final static private String winGethCommand = "\""+Global.getPath() + File.separator + "geth.cmd"+"\"";
+    final static private String winMineCommand = "cmd.exe /k start " + "\""+Global.getPath() +
+            File.separator + "ethminer.cmd"+"\"";
     final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
     final static private String winKillAllEthminer = "taskkill /IM ethminer.exe /F";
     Process p = null;
@@ -60,11 +61,13 @@ public class Commands {
         LOGGER.info("Running Geth Command File");
         Runnable r = () -> {
             try {
+                LOGGER.info("OS is "+Global.getOS());
                 ProcessBuilder pb = null;
                 if (Global.getOS().contains("mac")) {
                     /* Create the ProcessBuilder */
                     pb = new ProcessBuilder(macGethCommand);
                 } else if (Global.getOS().contains("win")) {
+                    LOGGER.info(winGethCommand);
                     pb = new ProcessBuilder(winGethCommand);
                 }
                 startProcess(pb);

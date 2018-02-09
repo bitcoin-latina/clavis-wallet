@@ -114,8 +114,9 @@ public class Utils {
 
     public static boolean Is_Empty_Directory(String path) {
         LOGGER.addHandler(Global.getLog_fh());
-        File file = new File(Global.getPath() + path);
+        File file = new File(path);
         if (file.isDirectory()) {
+            LOGGER.info(Global.getPath()+path+" Is a directory!");
             return Objects.requireNonNull(file.list()).length <= 0;
         } else {
             return true;

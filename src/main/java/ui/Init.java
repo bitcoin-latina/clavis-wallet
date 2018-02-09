@@ -74,8 +74,16 @@ public class Init extends Application {
         if(Global.getOS().contains("win")){
             //Initialized
             Global.setPath(Global.getPath() + File.separator + "BCL_CL");
+            LOGGER.info("USER PATH "+ Global.getPath());
             Permission_Commands.permission();
-            new Commands().geth();
+            //Check for geth contents
+            if(Utils.Is_Empty_Directory(Global.getPath()+File.separator+"BCL_Node"
+                    +File.separator+"geth"+File.separator+"chaindata")){
+                new Commands().start(); // Uninitialized
+                LOGGER.info("Initialized Geth!");
+            }
+            else
+                new Commands().geth();
         }else{
             Structure_Check.check_Structure();
         }
