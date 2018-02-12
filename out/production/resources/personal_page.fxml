@@ -327,10 +327,11 @@
             <Font size="12.0" />
          </font>
       </Label>
-      <Button fx:id="export_keys_button" layoutX="524.0" layoutY="397.0" mnemonicParsing="false" onAction="#export_keys" prefHeight="27.0" prefWidth="105.0" text="Export Keys" />
-      <Label layoutX="524.0" layoutY="440.0" prefHeight="70.0" prefWidth="105.0" text="Please Save And&#10;Backup Your Keys.&#10;These Files Allow &#10;You To Access Your&#10;Funds." textFill="#979797">
+      <Button fx:id="export_keys_button" layoutX="518.0" layoutY="440.0" mnemonicParsing="false" onAction="#export_keys" prefHeight="27.0" prefWidth="105.0" text="Export Keys" />
+      <Button fx:id="import_keys_button" layoutX="518.0" layoutY="480.0" mnemonicParsing="false" onAction="#import_keys" prefHeight="27.0" prefWidth="105.0" text="Import Keys" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="518.0" layoutY="385.0" prefHeight="50.0" prefWidth="105.0" text="BCL Wallet&#10;Management&#10;&#10;&#10;&#10;&#10;" textAlignment="CENTER" textFill="#979797">
          <font>
-            <Font size="11.0" />
+            <Font size="12.0" />
          </font>
       </Label>
    </children>

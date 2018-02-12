@@ -59,17 +59,33 @@ public class Utils {
             e.printStackTrace();
         }
     }
-
     public static void export_keys() {
+        File DEFAULTDIR = new File(System.getProperty("user.home")+File.separator+"Desktop");
         String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "Keystore";
         Stage window = new Stage();
         File src = new File(filepath);
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(DEFAULTDIR);
         fileChooser.setTitle("Export Keys");
         File dest = fileChooser.showSaveDialog(window);
         if (dest != null) {
             copyFolder(src.toPath(), dest.toPath());
             LOGGER.warning("EXPORT KEYS FROM " + filepath + "\nTO " + dest.toString());
+        }
+    }
+    public static void import_keys() {
+        File DEFAULTDIR = new File(System.getProperty("user.home")+File.separator+"Desktop");
+        Stage window = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(DEFAULTDIR);
+        fileChooser.setTitle("Import Keys");
+        File src = fileChooser.showOpenDialog(window);
+        if (src != null) {
+            String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "Keystore"+File.separator+src.getName();
+            File dest = new File(filepath);
+            copyFolder(src.toPath(), dest.toPath());
+            Global.update_information();
+            LOGGER.warning("IMPORT KEYS FROM " + filepath + "\nTO " + dest.toString());
         }
     }
 

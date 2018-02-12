@@ -30,6 +30,7 @@ public class Personal_Controller extends Dashboard_Controller {
     public Button copy_address_button;
     private static final Logger LOGGER = Logger.getLogger(Personal.class.getName());
     public Button export_keys_button;
+    public Button import_keys_button;
 
     public void initialize(){
         LOGGER.addHandler(Global.getLog_fh());
@@ -142,5 +143,8 @@ public class Personal_Controller extends Dashboard_Controller {
     }
     public void export_keys(ActionEvent actionEvent) {
         Utils.export_keys();
+    }
+    public void import_keys(ActionEvent actionEvent) {
+        Utils.import_keys();
     }
 }
