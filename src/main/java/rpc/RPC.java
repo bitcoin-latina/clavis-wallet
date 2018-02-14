@@ -106,8 +106,8 @@ public class RPC {
 
     private static void createAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Message");
-        alert.setHeaderText(message);
+        alert.setTitle("SUCCESSFUL TRANSACTION COMPLETED");
+        alert.setHeaderText("SUCCESS!" + message);
         alert.show();
     }
 }

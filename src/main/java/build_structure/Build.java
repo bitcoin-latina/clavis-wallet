@@ -105,6 +105,8 @@ public class Build {
             String linGenesisRes = "json"+File.separator+"genesis.json";
             Utils.export_resource(linGenesisRes, linGenesis);
             LOGGER.info("Lin Genesis File Added");
+            String linStaticNodeRes = "json"+File.separator+"static-nodes.json";
+            Utils.export_resource(linStaticNodeRes, linStaticNode);
         }
         //Linux Support Coming...
     }
