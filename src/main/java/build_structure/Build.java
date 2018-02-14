@@ -36,6 +36,14 @@ public class Build {
     final private String macEthMinerCommand = Global.getPath() + File.separator + "ethminer.command";
     final private String macStaticNode = Global.getPath() + File.separator + "BCL_Node" + File.separator
             + "geth" + File.separator + "static-nodes.json";//=Win
+    //>>External Paths
+    final private String linGenesis = Global.getPath() + File.separator + "genesis.json";//==Win
+    final private String linGethBinary = Global.getPath() + File.separator + "geth";
+    final private String linStartCommand = Global.getPath() + File.separator + "start.sh";
+    final private String linGethCommand = Global.getPath() + File.separator + "geth.sh";
+    final private String linEthMinerCommand = Global.getPath() + File.separator + "ethminer.sh";
+    final private String linStaticNode = Global.getPath() + File.separator + "BCL_Node" + File.separator
+            + "geth" + File.separator + "static-nodes.json";//=Win
 
     public void BCLFolder() {
         LOGGER.addHandler(Global.getLog_fh());
@@ -90,6 +98,14 @@ public class Build {
             String macStaticNodeRes = "json"+File.separator+"static-nodes.json";
             Utils.export_resource(macStaticNodeRes, macStaticNode);
         }
+        else if (Global.getOS().contains("lin")){
+            String linGethBinaryRes = "binaries"+File.separator+"linux"+File.separator+"geth";
+            Utils.export_resource(linGethBinaryRes, linGethBinary);
+            LOGGER.info("Lin Geth Added");
+            String linGenesisRes = "json"+File.separator+"genesis.json";
+            Utils.export_resource(linGenesisRes, linGenesis);
+            LOGGER.info("Lin Genesis File Added");
+        }
         //Linux Support Coming...
     }
 
@@ -108,6 +124,14 @@ public class Build {
             Utils.export_resource(macGethCommandRes, macGethCommand);
             String macEthMinerCommandRes = "commands"+File.separator+"mac"+File.separator+"ethminer.command";
             Utils.export_resource(macEthMinerCommandRes, macEthMinerCommand);
+        }
+        else if (Global.getOS().contains("lin")){
+            String linStartCommandRes = "commands"+File.separator+"linux"+File.separator+"start.sh";
+            Utils.export_resource(linStartCommandRes, linStartCommand);
+            String linGethCommandRes = "commands"+File.separator+"linux"+File.separator+"geth.sh";
+            Utils.export_resource(linGethCommandRes, linGethCommand);
+            String linEthMinerCommandRes = "commands"+File.separator+"linux"+File.separator+"ethminer.sh";
+            Utils.export_resource(linEthMinerCommandRes, linEthMinerCommand);
         }
         //Linux Support Coming...
     }

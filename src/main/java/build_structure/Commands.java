@@ -15,14 +15,20 @@ public class Commands {
      * Used To Execute Sys Commands
      */
     private static final Logger LOGGER = Logger.getLogger(Commands.class.getName());
+    //Lin Commands
+    //TODO EDIT THESE -> JUST CALL COMMANDS AND ADD EVERYTHING IN FILES
+    final static private String linStartCommand = Global.getPath() + File.separator + "start.sh";
+    final static private String linGethCommand = Global.getPath() + File.separator + "geth.sh";
+    final static private String linMineCommand = "open " + Global.getPath() + File.separator + "ethminer.sh";
+
     //Mac Commands
     final static private String macStartCommand = Global.getPath() + File.separator + "start.command";
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
     final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
-    final static private String winStartCommand = "\""+Global.getPath() + File.separator + "start.cmd"+"\"";
-    final static private String winGethCommand = "\""+Global.getPath() + File.separator + "geth.cmd"+"\"";
-    final static private String winMineCommand = "cmd.exe /k start " +Global.getPath() +
+    final static private String winStartCommand = "\"" + Global.getPath() + File.separator + "start.cmd" + "\"";
+    final static private String winGethCommand = "\"" + Global.getPath() + File.separator + "geth.cmd" + "\"";
+    final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() +
             File.separator + "ethminer.cmd";
     final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
     final static private String winKillAllEthminer = "taskkill /IM ethminer.exe /F";
@@ -39,29 +45,33 @@ public class Commands {
                     pb = new ProcessBuilder(macStartCommand);
                 } else if (Global.getOS().contains("win")) {
                     pb = new ProcessBuilder(winStartCommand);
+                } else if (Global.getOS().contains("lin")) {
+                    pb = new ProcessBuilder(linStartCommand);
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                LOGGER.warning("UNABLE TO RUN START COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
+                LOGGER.warning("UNABLE TO RUN START COMMAND \n\n" + Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
         };
         LOGGER.info("Reordering Thread Priorities For Geth");
         reorder_threads(r);
     }
-    private static void reorder_threads(Runnable r){
+
+    private static void reorder_threads(Runnable r) {
         //Set Ui Thread Lower Priority Until Geth is Synced
         Global.getUiThread().setPriority(Thread.MIN_PRIORITY);
         Global.setGethThread(new Thread(r));
         Global.getGethThread().setPriority(Thread.MAX_PRIORITY);
         Global.getGethThread().start();
     }
+
     public void geth() {
         LOGGER.addHandler(Global.getLog_fh());
         LOGGER.info("Running Geth Command File");
         Runnable r = () -> {
             try {
-                LOGGER.info("OS is "+Global.getOS());
+                LOGGER.info("OS is " + Global.getOS());
                 ProcessBuilder pb = null;
                 if (Global.getOS().contains("mac")) {
                     /* Create the ProcessBuilder */
@@ -69,10 +79,13 @@ public class Commands {
                 } else if (Global.getOS().contains("win")) {
                     LOGGER.info(winGethCommand);
                     pb = new ProcessBuilder(winGethCommand);
+                } else if (Global.getOS().contains("lin")) {
+                    LOGGER.info(linGethCommand);
+                    pb = new ProcessBuilder(linGethCommand);
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                LOGGER.warning("UNABLE TO RUN GETH COMMAND \n\n"+ Arrays.toString(e.getStackTrace()));
+                LOGGER.warning("UNABLE TO RUN GETH COMMAND \n\n" + Arrays.toString(e.getStackTrace()));
                 System.exit(1);
             }
         };
@@ -91,6 +104,8 @@ public class Commands {
                 case "windows":
                     p = Runtime.getRuntime().exec(winMineCommand);
                     break;
+                case "linux":
+                    p = Runtime.getRuntime().exec(linMineCommand);
             }
             Global.getAppProcesses().add(p);
         } catch (IOException e) {
@@ -103,7 +118,7 @@ public class Commands {
         LOGGER.addHandler(Global.getLog_fh());
         LOGGER.info("Running Mining_Popup Command File");
         try {
-            if (Global.getOS().contains("mac")) {
+            if (Global.getOS().contains("mac") || Global.getOS().contains("lin")) {
                 Process p = Runtime.getRuntime().exec("killall geth");
                 Process p2 = Runtime.getRuntime().exec("killall ethminer");
                 synchronized (p) {

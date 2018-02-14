@@ -28,10 +28,18 @@ public class Github_API_Parser {
                     }
                 }
             }
-            else{
+            else if(Global.getOS().contains("mac")){
                 //mac
                 for (int i=0; i<assets.length(); ++i) {
                     if(assets.getJSONObject(i).getString("name").toLowerCase().contains("darwin")){
+                        return assets.getJSONObject(i).getString("browser_download_url");
+                    }
+                }
+            }
+            else if(Global.getOS().contains("lin")){
+                //mac
+                for (int i=0; i<assets.length(); ++i) {
+                    if(assets.getJSONObject(i).getString("name").toLowerCase().contains("linux")){
                         return assets.getJSONObject(i).getString("browser_download_url");
                     }
                 }

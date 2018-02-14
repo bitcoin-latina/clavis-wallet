@@ -20,7 +20,7 @@ public class Permission_Commands {
         LOGGER.addHandler(Global.getLog_fh());
         LOGGER.info("Changing Permissions of BCL_CL Folder");
         try {
-            if (Global.getOS().contains("mac")) {
+            if (Global.getOS().contains("mac")||Global.getOS().contains("lin")) {
                 Process p = Runtime.getRuntime().exec(macPerm);
                 synchronized (p) {
                     p.waitFor();

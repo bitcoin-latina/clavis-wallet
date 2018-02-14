@@ -24,7 +24,7 @@ public class Download {
             unwrap(new File(Global.getPath() + File.separator + archivename),
                     new File(Global.getPath() + File.separator + "ethminerfol"));
             filename = "ethminer.exe";
-        } else if (Global.getOS().contains("mac")) {
+        } else if (Global.getOS().contains("mac")||Global.getOS().contains("lin")) {
             archivename = "ethminer.tar.gz";
             download(archivename, Github_API_Parser.getDownloadURL(ETHMINER));
             unwrap(new File(Global.getPath() + File.separator + archivename),

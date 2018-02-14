@@ -27,14 +27,17 @@ public class Utils {
         LOGGER.info("Setting UP Operation System");
         if (os.contains("win")) {
             Global.setOS("windows");
-            Global.setPath(System.getProperty("user.home"));
         } else if (os.contains("mac")) {
             Global.setOS("mac");
-            Global.setPath(System.getProperty("user.home"));
-        } else {
+        } else if (os.contains("lin")){
+            Global.setOS("linux");
+        }
+        else {
             //OS not supported
             System.exit(1);
         }
+
+        Global.setPath(System.getProperty("user.home"));
     }
 
     public static boolean Is_Empty_File(String path) {
@@ -61,7 +64,7 @@ public class Utils {
     }
     public static void export_keys() {
         File DEFAULTDIR = new File(System.getProperty("user.home")+File.separator+"Desktop");
-        String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "Keystore";
+        String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "keystore";
         Stage window = new Stage();
         File src = new File(filepath);
         FileChooser fileChooser = new FileChooser();
@@ -81,7 +84,7 @@ public class Utils {
         fileChooser.setTitle("Import Keys");
         File src = fileChooser.showOpenDialog(window);
         if (src != null) {
-            String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "Keystore"+File.separator+src.getName();
+            String filepath = Global.getPath() + File.separator + "BCL_Node" + File.separator + "keystore"+File.separator+src.getName();
             File dest = new File(filepath);
             copyFolder(src.toPath(), dest.toPath());
             Global.update_information();

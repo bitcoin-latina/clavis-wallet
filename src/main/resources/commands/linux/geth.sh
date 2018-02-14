@@ -1,2 +1,3 @@
-./geth --datadir "BCL_Node" --networkid 24071783 console --bootnodes "enode://ddfce3e39745dfe84f831ec75edf52c363e282b3a6ceaf0515f8ec0f6f29627d7cf82be0b23b9523cc5c8ba1ad6b45ae56f7db392a09abbafe3d705d0452ae6f@45.32.205.145:30301"
-
+#!/bin/bash
+cd ~/BCL_CL
+./geth --datadir "~/BCL_CL/BCL_Node" --networkid 24071783 console --bootnodes "enode://492539b16ae64ca44eb62e99f15a387d14f917252ac98e701812c4537cfd073a1ad16e60b9df5f3d850f5da6557231d9a38142a5b47f82ffa36dc06f573f5c55@45.76.57.186:30301" --rpc

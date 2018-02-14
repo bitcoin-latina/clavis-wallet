@@ -70,6 +70,10 @@ public class Structure_Check {
             return (!Utils.Is_Empty_File(File.separator + "ethminer.cmd") &&
                     !Utils.Is_Empty_File(File.separator + "geth.cmd") &&
                     !Utils.Is_Empty_File(File.separator + "start.cmd"));
+        } else if (Global.getOS().contains("lin")) {
+            return (!Utils.Is_Empty_File(File.separator + "ethminer.sh") &&
+                    !Utils.Is_Empty_File(File.separator + "geth.sh") &&
+                    !Utils.Is_Empty_File(File.separator + "start.sh"));
         }
         return false;
     }

@@ -35,7 +35,7 @@ public class Setup {
                 setupWeb3();
             }
         }
-        if (Global.getOS().contains("mac")) {
+        if (Global.getOS().contains("mac")||Global.getOS().contains("lin")) {
             while (Utils.Is_Empty_File(macIPC)) {
                 //Do Nothing But Sleep
                 try {
