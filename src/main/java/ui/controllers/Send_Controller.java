@@ -1,5 +1,7 @@
 package ui.controllers;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import ui.Global;
 import web3j.Gas;

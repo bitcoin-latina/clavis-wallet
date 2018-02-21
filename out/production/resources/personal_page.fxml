@@ -255,7 +255,7 @@
          </font>
       </Label>
       <Button fx:id="unlock_button" layoutX="260.0" layoutY="290.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #353535;" text="  Unlock" textFill="WHITE" translateX="-10.0" translateY="-10.0" />
-      <Button fx:id="new_account_button" layoutX="260.0" layoutY="450.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #353535;" text="   Make Account" textFill="WHITE" translateX="-10.0" translateY="30.0" />
+      <Button fx:id="new_account_button" layoutX="260.0" layoutY="486.0" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: #353535;" text="   Make Account" textFill="WHITE" translateX="-10.0" translateY="30.0" />
       <Label alignment="CENTER" layoutX="260.0" layoutY="360.0" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #AAD2BA;" text="NOTE: Use this tool to create new accounts" textFill="WHITE" translateX="-10.0" translateY="30.0">
          <font>
             <Font size="11.0" />
@@ -334,5 +334,10 @@
             <Font size="12.0" />
          </font>
       </Label>
+      <PasswordField fx:id="pass_confirm" layoutX="250.0" layoutY="480.0" prefWidth="250.0" promptText="Confirm Password" style="-fx-border-color: #353535;">
+         <font>
+            <Font name="PT Mono" size="13.0" />
+         </font>
+      </PasswordField>
    </children>
 </AnchorPane>

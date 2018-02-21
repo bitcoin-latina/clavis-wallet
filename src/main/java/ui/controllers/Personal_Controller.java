@@ -31,6 +31,7 @@ public class Personal_Controller extends Dashboard_Controller {
     private static final Logger LOGGER = Logger.getLogger(Personal.class.getName());
     public Button export_keys_button;
     public Button import_keys_button;
+    public PasswordField pass_confirm;
 
     public void initialize(){
         LOGGER.addHandler(Global.getLog_fh());
@@ -53,7 +54,7 @@ public class Personal_Controller extends Dashboard_Controller {
             createAlert("No selected address from dropdown!");
             LOGGER.warning("No selected address from dropdown");
         }
-        else if(unlock_account_pass.getText()==null){
+        else if(unlock_account_pass.getText()==null||pass_confirm.getText()==null){
             createAlert("No password entered!");
             LOGGER.warning("No password entered");
         }
@@ -82,6 +83,10 @@ public class Personal_Controller extends Dashboard_Controller {
         if(s.isEmpty()){
             LOGGER.warning("COULD NOT CREATE NEW ACCOUNT");
             createErrorAlert();
+        }
+        else if(!new_account_pass.getText().equals(pass_confirm.getText())){
+            createAlert("Passwords Don't Match!");
+            LOGGER.warning("No password entered");
         }
         else {
             LOGGER.info("New Account Creation Successful");
