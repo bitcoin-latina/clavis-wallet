@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Commands {
@@ -19,15 +20,15 @@ public class Commands {
     //TODO EDIT THESE -> JUST CALL COMMANDS AND ADD EVERYTHING IN FILES
     final static private String linStartCommand = Global.getPath() + File.separator + "start.sh";
     final static private String linGethCommand = Global.getPath() + File.separator + "geth.sh";
-    final static private String linMineCommand = "open " + Global.getPath() + File.separator + "ethminer.sh";
+    final static private String linMineCommand = "x-terminal-emulator -e bash ~/BCL_CL/ethminer.sh";
 
     //Mac Commands
     final static private String macStartCommand = Global.getPath() + File.separator + "start.command";
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
     final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
-    final static private String winStartCommand = "\"" + Global.getPath() + File.separator + "start.cmd" + "\"";
-    final static private String winGethCommand = "\"" + Global.getPath() + File.separator + "geth.cmd" + "\"";
+    final static private String winStartCommand = "\""+Global.getPath() + File.separator + "start.cmd"+"\"";
+    final static private String winGethCommand = "\""+Global.getPath() + File.separator + "geth.cmd"+"\"";
     final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() +
             File.separator + "ethminer.cmd";
     final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
@@ -50,7 +51,8 @@ public class Commands {
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                LOGGER.warning("UNABLE TO RUN START COMMAND \n\n" + Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
                 System.exit(1);
             }
         };
@@ -85,7 +87,8 @@ public class Commands {
                 }
                 startProcess(pb);
             } catch (IOException e) {
-                LOGGER.warning("UNABLE TO RUN GETH COMMAND \n\n" + Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
                 System.exit(1);
             }
         };
@@ -109,7 +112,8 @@ public class Commands {
             }
             Global.getAppProcesses().add(p);
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO RUN MINING COMMAND " + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
             System.exit(1);
         }
     }
@@ -138,10 +142,12 @@ public class Commands {
                 }
             }
         } catch (IOException e) {
-            LOGGER.warning("Unable to Kill Ethminer/Geth" + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
             System.exit(1);
         } catch (InterruptedException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 
@@ -157,7 +163,10 @@ public class Commands {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 proc.getInputStream()));
         while ((line = in.readLine()) != null) {
-            LOGGER.info("GETH: " + line);
+            if(line.toLowerCase().contains("block synchronisation started")){
+                Global.setBlock_sync_started(1);
+            }
+            LOGGER.info("GETH CLIENT: " + line);
         }
         /* Clean-up */
         proc.destroy();

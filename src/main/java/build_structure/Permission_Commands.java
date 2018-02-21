@@ -6,6 +6,7 @@ import ui.Init;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Permission_Commands {
@@ -27,17 +28,19 @@ public class Permission_Commands {
                 }
                 Global.getAppProcesses().add(p);
             } else if (Global.getOS().contains("win")) {//Should grant permissions for whole folder
+                LOGGER.info(winPerm);
                 Process p = Runtime.getRuntime().exec(winPerm);
                 synchronized (p) {
                     p.waitFor();
                 }
             }
         } catch (IOException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
-            LOGGER.warning("COULDN'T CHANGE THE BCL_CL Permissions\n\n"+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
             System.exit(1);
         } catch (InterruptedException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 }

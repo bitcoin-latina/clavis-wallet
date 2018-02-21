@@ -11,6 +11,7 @@ import ui.controllers.Controller;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -25,7 +26,8 @@ public class Blocks {
             EthBlockNumber ethBlockNumber = web3.ethBlockNumber().send();
             blockNumber = ethBlockNumber.getBlockNumber();
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO GET BLOCK NUM "+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return blockNumber;
     }
@@ -48,7 +50,8 @@ public class Blocks {
                 Global.setBCL_monitor(sb.toString());
             }
         } catch (Exception e) {
-            LOGGER.warning("UNABLE TO GET HIGHEST BLOCK NUM "+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return blockNumber;
     }
@@ -59,7 +62,8 @@ public class Blocks {
             //Update Every 5 Seconds
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         try {
             //Update Ui From Background Thread
@@ -70,7 +74,8 @@ public class Blocks {
                 d.initialize();
             });
         } catch (Exception e) {
-            LOGGER.info("UNABLE TO UPDATE" + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 }

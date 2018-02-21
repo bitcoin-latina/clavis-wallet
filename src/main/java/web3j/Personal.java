@@ -6,6 +6,7 @@ import ui.Global;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -27,7 +28,8 @@ public class Personal {
         try {
             return geth.personalNewAccount(password).send().getAccountId();
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO CREATE ACCOUNT\n\n"+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return null;
     }

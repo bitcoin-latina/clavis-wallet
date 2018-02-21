@@ -96,7 +96,8 @@ public class Init extends Application {
             try {
                 new New_Account_Popup().start(new Stage());
             } catch (Exception e) {
-                LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
             }
         } else {
             start();
@@ -171,7 +172,8 @@ public class Init extends Application {
                     break;
             }
         } catch (IOException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 

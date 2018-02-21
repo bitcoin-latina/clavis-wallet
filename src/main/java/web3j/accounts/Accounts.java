@@ -15,6 +15,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Accounts {
@@ -40,7 +41,8 @@ public class Accounts {
             }
             return accountList;
         } catch (Exception e) {
-            LOGGER.warning("UNABLE GET ACCOUNTS \n\n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -56,7 +58,8 @@ public class Accounts {
             }
             return d.setScale(2, RoundingMode.FLOOR).toString();
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO GET TOTAL BALANCE\n\n " + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return null;
     }
@@ -66,7 +69,8 @@ public class Accounts {
             EthAccounts ethAccounts = Global.getWeb3j().ethAccounts().send();
             return ethAccounts.getAccounts().size() != 0;
         } catch (Exception e) {
-            LOGGER.warning("UNABLE TO GET ACCOUNTS " + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
             accounts_check();
         }
         return false;
@@ -82,7 +86,8 @@ public class Accounts {
             }
             return (personalUnlockAccount.accountUnlocked());
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO UNLOCK ACCOUNT\n\n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return false;
     }

@@ -16,6 +16,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RPC {
@@ -82,14 +83,15 @@ public class RPC {
             assert result != null;
             return result.toString();
         } catch (IOException e) {
-            LOGGER.warning("COULDN'T COMPLETE RPC CALL \n\n"+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
             e.printStackTrace();
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                    LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                    e.printStackTrace();
                 }
             }
         }

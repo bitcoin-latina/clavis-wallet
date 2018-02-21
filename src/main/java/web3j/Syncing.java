@@ -11,6 +11,7 @@ import ui.Global;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Syncing {
@@ -21,21 +22,21 @@ public class Syncing {
         String result = RPC.rpc_call("eth_syncing", new Params(), false);
         LOGGER.info("Syncing RPC Call :" + result);
         if (result.toLowerCase().equals("error")) {
-            return 0;
+            return 0; //Error
         } else {
             if (result.toLowerCase().equals("false")) {
-                if (Blocks.getHighestBlockNumber(Global.getWeb3j()).longValue() > 1) {
-                    if (.95 < Blocks.getBlockNumber(Global.getWeb3j()).doubleValue() /
-                            (Blocks.getHighestBlockNumber(Global.getWeb3j()).doubleValue()))
-                        return 1;
+                if (Global.getBlock_sync_started()==1) {
+                    return (1); //Synced
                 }
-                return -1;
+                else{
+                    return 0; //Determining
+                }
             } else {
                 JSONObject res = new JSONObject(result);
                 BigInteger highest_block = new BigInteger(res.getString("highestBlock").substring(2), 16);
                 BigInteger currentBlock = new BigInteger(res.getString("currentBlock").substring(2), 16);
                 LOGGER.info("Highest Block Number "+ highest_block + "\nCurrent Block "+ currentBlock);
-                return currentBlock.doubleValue() / highest_block.doubleValue();
+                return currentBlock.doubleValue() / highest_block.doubleValue(); //Syncing
             }
         }
     }
@@ -55,7 +56,8 @@ public class Syncing {
             EthSyncing ethSyncing = Global.getWeb3j().ethSyncing().send();
             return ethSyncing.isSyncing();
         } catch (IOException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         return false;
     }

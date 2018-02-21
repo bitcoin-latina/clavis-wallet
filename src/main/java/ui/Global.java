@@ -1,6 +1,7 @@
 package ui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
@@ -20,10 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.FileHandler;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
 
 public class Global {
     private static FileHandler log_fh;
@@ -44,7 +42,7 @@ public class Global {
     private static List<Thread> appThreads = new ArrayList<Thread>();
     private static List<Process> appProcesses = new ArrayList<Process>();
     private static Thread gethThread;
-    private static double isSynced=0;
+    private static int block_sync_started = 0;
     private static Thread uiThread;
     private static Thread updateThread;
     private static final Logger LOGGER = Logger.getLogger(Global.class.getName());
@@ -174,29 +172,45 @@ public class Global {
             Global.setAccountList(new Accounts().getAccounts());
             Global.setNewest_block(Blocks.getHighestBlockNumber(Global.getWeb3j()).toString());
             Global.setTotal_balance((new Accounts()).getTotalBalance());
-            if(isSynced!=1) {
-                syncingCheck();
-                Global.setWallet_status(Syncing.getWalletStatus());
-            }
+            syncingCheck();
+            Global.setWallet_status(Syncing.getWalletStatus());
             Global.setMain_account(new Accounts().getAccounts().get(0));
         } catch (Exception e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 
     //Max FIle Size 25 MB
     private static final int FILE_SIZE = 26214400;
 
-    public static void setup_logger_fh(){
+    public static void setup_logger_fh() throws InterruptedException {
         try {
             log_fh = new FileHandler(System.getProperty("user.home")+
                     File.separator+"Documents"+File.separator+ "BCL.log", FILE_SIZE, 1,true);
             SimpleFormatter formatter = new SimpleFormatter();
             log_fh.setFormatter(formatter);
         } catch (SecurityException | IOException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            createAlert(e);
+            Thread.sleep(5000);
+            e.printStackTrace();
         }
     }
+    private static void createAlert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Security Exception");
+        alert.setHeaderText("Clavis Was Unable To Write Doc File -> Please Submit Bug Report!\n"+e.getMessage());
+        alert.show();
+    }
+    public static int getBlock_sync_started() {
+        return block_sync_started;
+    }
+
+    public static void setBlock_sync_started(int block_sync_started) {
+        Global.block_sync_started = block_sync_started;
+    }
+
     private static void syncingCheck(){
         LOGGER.addHandler(log_fh);
         Double syncing = Syncing.getSyncingProgress();
@@ -204,12 +218,15 @@ public class Global {
             LOGGER.info("Syncing Is at 100%");
             LOGGER.info("Reordering Thread Priorities to Favor UI");
             Global.setSyncing(String.format("%.2f", syncing * 100) + " %");
-            isSynced=1;
             gethThread.setPriority(Thread.MIN_PRIORITY);
             uiThread.setPriority(Thread.NORM_PRIORITY);
             updateThread.setPriority(Thread.NORM_PRIORITY);
         }
-        else if (!(syncing<0))
+        else if (syncing==0) {
+            Global.setSyncing("Waiting For Data...");
+        }
+        else if (syncing>0){
             Global.setSyncing(String.format("%.2f", syncing * 100) + " %");
+        }
     }
 }

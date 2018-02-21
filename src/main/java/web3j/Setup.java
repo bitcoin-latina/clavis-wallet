@@ -9,6 +9,7 @@ import utils.Utils;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Setup {
@@ -41,7 +42,8 @@ public class Setup {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                    LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                    e.printStackTrace();
                 }
             }
             try {

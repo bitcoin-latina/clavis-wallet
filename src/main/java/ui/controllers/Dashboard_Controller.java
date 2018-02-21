@@ -17,6 +17,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Dashboard_Controller extends Controller {
@@ -148,9 +149,8 @@ public class Dashboard_Controller extends Controller {
                             new Copy_Address_Popup().start(new Stage());
                             new Copy_Popup_Controller().initialize();
                         } catch (Exception e) {
-                            LOGGER.warning("UNABLE TO CREATE COPY POPUP\n\n" +
-                                    Arrays.toString(e.getStackTrace()));
-                            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -242,7 +242,8 @@ public class Dashboard_Controller extends Controller {
         try {
             new Mining_Popup().start(new Stage());
         } catch (Exception e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 

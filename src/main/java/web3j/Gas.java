@@ -10,6 +10,7 @@ import ui.Global;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Gas {
@@ -23,7 +24,8 @@ public class Gas {
         try {
             ethBlock = web3.ethGetBlockByNumber(DefaultBlockParameterName.PENDING, true).send();
         } catch (IOException e) {
-            LOGGER.warning("UNABLE TO GET GAS LIMIT \n\n"+ Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
         assert ethBlock != null;
         assert ethBlock.getBlock().getGasLimit() != null;

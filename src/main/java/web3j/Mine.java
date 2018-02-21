@@ -5,6 +5,7 @@ import ui.Global;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Mine {
@@ -33,10 +34,12 @@ public class Mine {
                     p.wait();
                 }
             } catch (IOException e) {
-                LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
                 System.exit(1);
             } catch (InterruptedException e) {
-                LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
             }
         });
         background.start();
@@ -45,7 +48,8 @@ public class Mine {
             Thread.sleep(10000);
             Global.update_information();
         } catch (InterruptedException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 
@@ -67,10 +71,12 @@ public class Mine {
                     p.wait();
                 }
             } catch (IOException e) {
-                LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
                 System.exit(1);
             } catch (InterruptedException e) {
-                LOGGER.warning(Arrays.toString(e.getStackTrace()));
+                LOGGER.log(Level.SEVERE,e.getMessage(), e);
+                e.printStackTrace();
             }
         });
         background.start();
@@ -78,7 +84,8 @@ public class Mine {
             Thread.sleep(10000);
             Global.update_information();
         } catch (InterruptedException e) {
-            LOGGER.warning(Arrays.toString(e.getStackTrace()));
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 }
