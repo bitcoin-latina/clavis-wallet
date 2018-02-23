@@ -27,8 +27,8 @@ public class Commands {
     final static private String macGethCommand = Global.getPath() + File.separator + "geth.command";
     final static private String macMineCommand = "open " + Global.getPath() + File.separator + "ethminer.command";
     //Win Commands
-    final static private String winStartCommand = "\""+Global.getPath() + File.separator + "start.cmd"+"\"";
-    final static private String winGethCommand = "\""+Global.getPath() + File.separator + "geth.cmd"+"\"";
+    final static private String winStartCommand = Global.getPath() + File.separator + "start.cmd";
+    final static private String winGethCommand = Global.getPath() + File.separator + "geth.cmd";
     final static private String winMineCommand = "cmd.exe /k start " + Global.getPath() +
             File.separator + "ethminer.cmd";
     final static private String winKillAllGeth = "taskkill /IM geth.exe /F";
@@ -163,7 +163,7 @@ public class Commands {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 proc.getInputStream()));
         while ((line = in.readLine()) != null) {
-            if(line.toLowerCase().contains("block synchronisation started")){
+            if(line.toLowerCase().contains("imported new chain segment")){
                 Global.setBlock_sync_started(1);
             }
             LOGGER.info("GETH CLIENT: " + line);

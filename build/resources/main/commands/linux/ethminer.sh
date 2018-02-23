@@ -1,3 +1,4 @@
 #!/bin/bash
-echo "GPU Mining Started"
-~/BCL_CL/ethminer -G
+cd ~/BCL_CL
+./ethminer -G
+read -p "Press any key to end"
